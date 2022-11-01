@@ -1,0 +1,183 @@
+{
+  "project_info": {
+    "project_number": "270983235058",
+    "firebase_url": "https://agilemed-app.firebaseio.com",
+    "project_id": "agilemed-app",
+    "storage_bucket": "agilemed-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270983235058:android:2d04c26b147f591430d76b",
+        "android_client_info": {
+          "package_name": "com.example.agilemed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270983235058-8h18b7e4koiu42fmt8njf1pjmcce9tsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEAp8Li9KAVVONNT0ivdlzBSJz1-CT8TE"
+        },
+        {
+          "current_key": "AIzaSyBl-48WMHmsB8JXLHxEQebfzyHcPtGabCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270983235058-6cbjh96gf3puh5ik05s1lcg1irps7ge7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "270983235058-0c6gkqs348jpd9sa3n4durtsrkm0j3ma.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ztest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270983235058:android:e4e7122e3067f17a30d76b",
+        "android_client_info": {
+          "package_name": "com.example.newagileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270983235058-8h18b7e4koiu42fmt8njf1pjmcce9tsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEAp8Li9KAVVONNT0ivdlzBSJz1-CT8TE"
+        },
+        {
+          "current_key": "AIzaSyBl-48WMHmsB8JXLHxEQebfzyHcPtGabCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270983235058-6cbjh96gf3puh5ik05s1lcg1irps7ge7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "270983235058-0c6gkqs348jpd9sa3n4durtsrkm0j3ma.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ztest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270983235058:android:33b80357e000927f30d76b",
+        "android_client_info": {
+          "package_name": "com.lacimasoftware.agilemedapplicationone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270983235058-dls3iffoiritslc1ctr9bfk8mjaf7ugs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lacimasoftware.agilemedapplicationone",
+            "certificate_hash": "81cc49773dd1205f37f3dccdd547ffa08c100305"
+          }
+        },
+        {
+          "client_id": "270983235058-ri7l9gbnot9kf4n2sdkgjnp01p7h3b8u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lacimasoftware.agilemedapplicationone",
+            "certificate_hash": "6e383ca91a2d01782477333c0db9ab5fcb1087f8"
+          }
+        },
+        {
+          "client_id": "270983235058-8h18b7e4koiu42fmt8njf1pjmcce9tsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEAp8Li9KAVVONNT0ivdlzBSJz1-CT8TE"
+        },
+        {
+          "current_key": "AIzaSyBl-48WMHmsB8JXLHxEQebfzyHcPtGabCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270983235058-6cbjh96gf3puh5ik05s1lcg1irps7ge7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "270983235058-0c6gkqs348jpd9sa3n4durtsrkm0j3ma.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ztest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270983235058:android:38ade5a4cdc69fc930d76b",
+        "android_client_info": {
+          "package_name": "com.lacimasoftware.agilemedapplicationtwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270983235058-8h18b7e4koiu42fmt8njf1pjmcce9tsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEAp8Li9KAVVONNT0ivdlzBSJz1-CT8TE"
+        },
+        {
+          "current_key": "AIzaSyBl-48WMHmsB8JXLHxEQebfzyHcPtGabCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270983235058-6cbjh96gf3puh5ik05s1lcg1irps7ge7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "270983235058-0c6gkqs348jpd9sa3n4durtsrkm0j3ma.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ztest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
