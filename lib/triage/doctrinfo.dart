@@ -2,22 +2,30 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:newagileapp/doctorlist.dart';
-import 'package:newagileapp/triage/detailpage.dart';
+import 'package:doctoragileapp/doctorlist.dart';
+import 'package:doctoragileapp/triage/detailpage.dart';
 
 class Doctorinfo extends StatefulWidget {
   final List<dynamic> detaildoctor;
   DateTime appoint_time;
   final String holder_id;
   final String price;
-  final String  starttime;
+  final String starttime;
   final String endtime;
   final String slotdifference;
-  Doctorinfo({Key key, this.detaildoctor, this.appoint_time, this.holder_id,this.price,this.endtime,this.slotdifference,this.starttime})
+  Doctorinfo(
+      {Key key,
+      this.detaildoctor,
+      this.appoint_time,
+      this.holder_id,
+      this.price,
+      this.endtime,
+      this.slotdifference,
+      this.starttime})
       : super(key: key);
   @override
   @override
@@ -76,7 +84,7 @@ class _TestcatState extends State<Doctorinfo> {
                       height: 125,
                       width: 150,
                       child: CircleAvatar(
-                        backgroundColor:containerBorderColor,
+                        backgroundColor: containerBorderColor,
                         //  radius: 5,
                         child: ClipOval(
                             child: CachedNetworkImage(
@@ -102,13 +110,13 @@ class _TestcatState extends State<Doctorinfo> {
                               widget.detaildoctor[0]['username']
                               // 'Dr. Jai parkash tawde'
                               ,
-                              style:
-                                  TextStyle(fontSize: 18, color: blackTextColor),
+                              style: TextStyle(
+                                  fontSize: 18, color: blackTextColor),
                             ),
                             Text(
                               'Neurosurgeon',
-                              style:
-                                  TextStyle(fontSize: 15, color: blackTextColor),
+                              style: TextStyle(
+                                  fontSize: 15, color: blackTextColor),
                             ),
                             // RatingStars(4),
                           ],
@@ -133,12 +141,11 @@ class _TestcatState extends State<Doctorinfo> {
                                     fontSize: 15, color: blackTextColor)),
                           ),
                           SizedBox(
-                            width:45,
+                            width: 45,
                           ),
                           Container(
                             width: 200,
-                            child: Text(
-                                widget.detaildoctor[0]['medicalschool'],
+                            child: Text(widget.detaildoctor[0]['medicalschool'],
                                 // 'MBBS,DNB(General medicine)',
                                 style: TextStyle(
                                     fontSize: 15, color: blackTextColor)),
@@ -262,11 +269,14 @@ class _TestcatState extends State<Doctorinfo> {
                                               .toString(),
                                           user_image: widget.detaildoctor[0]
                                               ['user_profile'],
-                                              price: widget.detaildoctor[0]['price'].toString(),
-                                              payment_required:widget.detaildoctor[0]['is_payment_required'],
-                                              starttime:  widget.starttime,
-                                              endtime:widget.endtime ,
-                                              slotdifference: widget.slotdifference,
+                                          price: widget.detaildoctor[0]['price']
+                                              .toString(),
+                                          payment_required:
+                                              widget.detaildoctor[0]
+                                                  ['is_payment_required'],
+                                          starttime: widget.starttime,
+                                          endtime: widget.endtime,
+                                          slotdifference: widget.slotdifference,
                                         )));
                           },
                           shape: RoundedRectangleBorder(

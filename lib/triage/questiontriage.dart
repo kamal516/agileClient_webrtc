@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/screens/login.dart';
-import 'package:newagileapp/doctorlist.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
-import 'package:newagileapp/triage/doctorlisttriage.dart';
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/screens/login.dart';
+import 'package:doctoragileapp/doctorlist.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/triage/doctorlisttriage.dart';
+import 'package:doctoragileapp/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 
 class QuestionList extends StatefulWidget {
   final int id;
@@ -82,9 +82,9 @@ class _TestcatState extends State<QuestionList> {
             decoration: new BoxDecoration(
                 // color: Colors.white,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                )),
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+            )),
             padding: EdgeInsets.only(
               top: 0,
             ),
@@ -118,7 +118,8 @@ class _TestcatState extends State<QuestionList> {
                           ),
                           Text(
                             widget.cat,
-                            style: TextStyle(color: buttonTextColor, fontSize: 19),
+                            style:
+                                TextStyle(color: buttonTextColor, fontSize: 19),
                           ),
 
                           // IconButton(icon: Icon(Icons.power_settings_new,color: Colors.white,), onPressed: null),
@@ -138,7 +139,8 @@ class _TestcatState extends State<QuestionList> {
                         future: fetchquestion(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          if ((snapshot.connectionState ==ConnectionState.none &&
+                          if ((snapshot.connectionState ==
+                                      ConnectionState.none &&
                                   snapshot.hasData == null) ||
                               snapshot.data == null) {
                             return Container();
@@ -147,23 +149,18 @@ class _TestcatState extends State<QuestionList> {
                             for (int i = 0; i <= snapshot.data.length; i++) {
                               print(snapshot.data);
                             }
-if(snapshot.data=="No"){
-return Center(
-                  
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    height: 100,
-                    width:  400,
-                     child: 
-       Text(
-
-              "Sorry! there is no data .",style: TextStyle(fontSize: 18),
-       
-       ),
-                  )
-      
-     );
-}
+                            if (snapshot.data == "No") {
+                              return Center(
+                                  child: Container(
+                                padding: EdgeInsets.all(10),
+                                height: 100,
+                                width: 400,
+                                child: Text(
+                                  "Sorry! there is no data .",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ));
+                            }
                             return ListView.builder(
                                 padding: EdgeInsets.all(8),
                                 itemCount: snapshot.data.length + 1,
@@ -224,8 +221,7 @@ return Center(
                                                 return Column(
                                                   children: <Widget>[
                                                     RadioListTile(
-                                                      activeColor:
-                                                          buttonColor,
+                                                      activeColor: buttonColor,
                                                       title: Text(
                                                         snapshot.data[index]
                                                                     ['answers']
@@ -277,7 +273,8 @@ return Center(
                                         color: buttonColor,
                                         child: Text(
                                           'Submit',
-                                          style: TextStyle(color: buttonTextColor),
+                                          style:
+                                              TextStyle(color: buttonTextColor),
                                         ),
                                         onPressed: () {
                                           for (int j = 0;
@@ -299,7 +296,8 @@ return Center(
       ),
     );
   }
-DateTime dateTime = DateTime.now();
+
+  DateTime dateTime = DateTime.now();
   List useranswerdata = [];
   sendtotal() async {
     await http.post(apipath + '/triage_result', body: {
@@ -322,8 +320,10 @@ DateTime dateTime = DateTime.now();
               FlatButton(
                 child: Text('Ok'),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Calendarscreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Calendarscreen()));
                 },
               ),
             ],

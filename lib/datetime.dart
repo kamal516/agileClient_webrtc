@@ -6,8 +6,8 @@ import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:horizontal_time_picker/horizontal_time_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_range/time_range.dart';
 import 'package:http/http.dart' as http;
@@ -34,13 +34,15 @@ class _WidgetPageState extends State<Dateselect> {
   DateTime _selectedDate;
   DateTime _dateTime = DateTime.now();
   var slottimeshow;
-   @override
- 
-    String _localuserid;
-     _settoken() async {
+  @override
+  String _localuserid;
+  _settoken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      _localuserid = preferences.getString("id");});}
+      _localuserid = preferences.getString("id");
+    });
+  }
+
   // DateTime dd = DateTime();
   static const orange = Color(0xFFFE9A75);
   static const dark = Color(0xFF333A47);
@@ -239,7 +241,7 @@ class _WidgetPageState extends State<Dateselect> {
   @override
   void initState() {
     super.initState();
-     _settoken();
+    _settoken();
     _timeRange = _defaultTimeRange;
     st = DateFormat('hh:mm a').format(widget.starttime.toLocal());
     et = DateFormat('hh:mm a').format(widget.endtime.toLocal());
@@ -257,66 +259,67 @@ class _WidgetPageState extends State<Dateselect> {
     var addminutes1 = addminutes.add(new Duration(minutes: 15));
     print(DateFormat('HH:mm').format(addminutes1.toLocal()));
   }
-DateTime dt1;
+
+  DateTime dt1;
   List<dynamic> allslotslist = [];
   List<dynamic> slottimeList = [];
-DateTime starttimechange;
-DateTime endtimechange;
-DateTime dateTime = DateTime.now();
+  DateTime starttimechange;
+  DateTime endtimechange;
+  DateTime dateTime = DateTime.now();
   Future<List> _dateappointment() async {
-    final response = await http.post(apipath + '/doctorListByIdAppointment', body: {
+    final response =
+        await http.post(apipath + '/doctorListByIdAppointment', body: {
       "appointment_date": DateFormat("yMd").format(widget.appointment_datetime),
       "user_id": widget.holderid,
-      'timezone':dateTime.timeZoneName
-    }).then((value){
+      'timezone': dateTime.timeZoneName
+    }).then((value) {
       print(value.body);
       var dta = jsonDecode(value.body);
       setState(() {
-        starttimechange =DateTime.parse(dta[0]['available_start_time']) ;
-        endtimechange = DateTime.parse(dta[0]['available_end_time']) ;
-          st = DateFormat('hh:mm a').format(DateTime.parse(dta[0]['available_start_time']).toLocal() );
-    et = DateFormat('hh:mm a').format(DateTime.parse(dta[0]['available_end_time']).toLocal());
+        starttimechange = DateTime.parse(dta[0]['available_start_time']);
+        endtimechange = DateTime.parse(dta[0]['available_end_time']);
+        st = DateFormat('hh:mm a')
+            .format(DateTime.parse(dta[0]['available_start_time']).toLocal());
+        et = DateFormat('hh:mm a')
+            .format(DateTime.parse(dta[0]['available_end_time']).toLocal());
       });
-      slottimeList=[];
-       if (dta[0]['slot_size'] == null) {
-         setState(() {
-           splitduration = 15;
-         });
-      
-    } else {
-      var splittime = dta[0]['slot_size'].split(':');
-      setState(() {
-           splitduration = int.parse(splittime[1]);
-      });
-   
-    }
-     moveToSecondPage();
-     slottimechange();
+      slottimeList = [];
+      if (dta[0]['slot_size'] == null) {
+        setState(() {
+          splitduration = 15;
+        });
+      } else {
+        var splittime = dta[0]['slot_size'].split(':');
+        setState(() {
+          splitduration = int.parse(splittime[1]);
+        });
+      }
+      moveToSecondPage();
+      slottimechange();
 
       // print(dta[0]['available_start_time'].toLocal());
-    });}
-    var data;
-   List bookedtimechange=[];
-     moveToSecondPage()async{
-   await http.post(apipath + '/getBookedAppointmentSlot',body: {
- "selected_date": DateFormat('yMd').format(widget.appointment_datetime),
- "holder_id": widget.holderid,
- "timezone":dateTime.timeZoneName
-}).then((value){
-   data = json.decode(value.body);
-if(value.body!='[]'){
-  setState(() {
-     bookedtimechange = data;
-  });
-  
+    });
+  }
 
-}
+  var data;
+  List bookedtimechange = [];
+  moveToSecondPage() async {
+    await http.post(apipath + '/getBookedAppointmentSlot', body: {
+      "selected_date": DateFormat('yMd').format(widget.appointment_datetime),
+      "holder_id": widget.holderid,
+      "timezone": dateTime.timeZoneName
+    }).then((value) {
+      data = json.decode(value.body);
+      if (value.body != '[]') {
+        setState(() {
+          bookedtimechange = data;
+        });
+      }
+    });
+  }
 
-});
-  
-}
-    slottimechange(){
-        var dynamiclist = [];
+  slottimechange() {
+    var dynamiclist = [];
     var obj = {'time': st, "selected": false};
     var addminutes;
     dynamiclist.add(obj);
@@ -364,7 +367,8 @@ if(value.body!='[]'){
       }
     }
     print(slottimeList);
-    }
+  }
+
   slottime() {
     var dynamiclist = [];
     var obj = {'time': st, "selected": false};
@@ -500,7 +504,7 @@ if(value.body!='[]'){
                               widget.appointment_datetime.second,
                               widget.appointment_datetime.millisecond,
                               widget.appointment_datetime.microsecond);
-                             _dateappointment() ;
+                          _dateappointment();
                         },
                         pickerTheme: DateTimePickerTheme(
                           backgroundColor: Colors.white,
@@ -557,10 +561,12 @@ if(value.body!='[]'){
                                               setState(() {
                                                 slottimeshow =
                                                     slottimeList[index]['time'];
-                                                   dt1 =DateFormat('hh:mm a').parse(slottimeshow);
+                                                dt1 = DateFormat('hh:mm a')
+                                                    .parse(slottimeshow);
                                                 selectedCard = index;
                                               });
-                                              print(DateFormat('HH:mm').format(dt1));
+                                              print(DateFormat('HH:mm')
+                                                  .format(dt1));
                                             }
                                           : null,
                                       child: Container(
@@ -613,7 +619,7 @@ if(value.body!='[]'){
                             style: TextStyle(fontSize: 15),
                           )
                         : Text(''),
-                        // slottimeshow.toString()
+                    // slottimeshow.toString()
                     SizedBox(
                       height: 10,
                     ),
@@ -622,14 +628,16 @@ if(value.body!='[]'){
                         onPressed: () {
                           Navigator.pop(
                             context,
-                            DateTime.parse(DateFormat('yMMdd ').format(widget.appointment_datetime) +DateFormat('HH:mm').format(dt1)),
+                            DateTime.parse(DateFormat('yMMdd ')
+                                    .format(widget.appointment_datetime) +
+                                DateFormat('HH:mm').format(dt1)),
                           );
                         },
                         child: Text(
                           'Done',
                           style: TextStyle(color: buttonTextColor),
                         ))
-                  
+
                     // Padding(slottimeshow.split('AM')[0]
                     //     padding: EdgeInsets.only(top: 10),
                     //     child: Container(

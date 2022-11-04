@@ -8,20 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/datetime.dart';
-import 'package:newagileapp/screens/apptmntdone.dart';
-import 'package:newagileapp/screens/doneappointment.dart';
-import 'package:newagileapp/screens/webview.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/datetime.dart';
+import 'package:doctoragileapp/screens/apptmntdone.dart';
+import 'package:doctoragileapp/screens/doneappointment.dart';
+import 'package:doctoragileapp/screens/webview.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Detailpage extends StatefulWidget {
-  final String  calendarvalue;
-  final String  starttime;
- final String endtime;
+  final String calendarvalue;
+  final String starttime;
+  final String endtime;
   final String date;
   final String time;
   DateTime appointment_datetime;
@@ -37,9 +37,10 @@ class Detailpage extends StatefulWidget {
   final bool payment_required;
   final String slotdifference;
   Detailpage(
-      {this.calendarvalue,this.starttime,
+      {this.calendarvalue,
+      this.starttime,
       this.endtime,
-        this.date,
+      this.date,
       this.holderid,
       this.time,
       this.appointment_datetime,
@@ -61,18 +62,18 @@ class _TestcatState extends State<Detailpage> {
   String _catg(dynamic user) {
     return user['category'];
   }
+
   var calendardate;
-bool check = false;
+  bool check = false;
   @override
   void initState() {
     super.initState();
     _getapptoken();
     press = false;
- if (widget.calendarvalue== '1') {
-   calendardate= widget.appointment_datetime.toLocal() ;
-    }
-    else{
-       calendardate= widget.appointment_datetime.toLocal() ;
+    if (widget.calendarvalue == '1') {
+      calendardate = widget.appointment_datetime.toLocal();
+    } else {
+      calendardate = widget.appointment_datetime.toLocal();
     }
     if (widget.appointment_datetime == null) {
       widget.appointment_datetime = DateTime.now();
@@ -111,7 +112,7 @@ bool check = false;
   TextEditingController policynotes = new TextEditingController();
   TextEditingController insurancegroupnumber = new TextEditingController();
   TextEditingController fees = new TextEditingController();
-TextEditingController setfees = new TextEditingController();
+  TextEditingController setfees = new TextEditingController();
   String _date, name1, phone1, address1, mobilenumber, email, _problem;
   int id;
   String _localid;
@@ -141,14 +142,14 @@ TextEditingController setfees = new TextEditingController();
   String _email;
   bool press = true;
   String _pphonenum;
-   String _policynum;
-    String _policydes;
-     String _policynote; 
-     String _insurancename;
-     String _insurancegoupnum;
-DateTime dateTime = DateTime.now();
+  String _policynum;
+  String _policydes;
+  String _policynote;
+  String _insurancename;
+  String _insurancegoupnum;
+  DateTime dateTime = DateTime.now();
   final _formKey = GlobalKey<FormState>();
-   final _insurancekey = GlobalKey<FormState>();
+  final _insurancekey = GlobalKey<FormState>();
   Future<List> _registerndata() async {
     final response = await http.post(apipath + '/register', body: {
       "username": name.text,
@@ -169,24 +170,24 @@ DateTime dateTime = DateTime.now();
     });
     register();
   }
+
   Future<List> _appointmentslot() async {
-    final response = await http.post(apipath + '/getBookedAppointmentSlot', body: {
+    final response =
+        await http.post(apipath + '/getBookedAppointmentSlot', body: {
       "selected_date": widget.appointment_datetime,
       "holder_id": address.text,
-      "timezone":dateTime.timeZoneName
+      "timezone": dateTime.timeZoneName
     }).then((value) async {
       print(value.body);
       var body = json.decode(value.body);
       setState(() {
         _userid = body['user_id'];
-     
       });
-     
     });
-    
   }
+
   String app_tokenid;
-List booktime;
+  List booktime;
   int appointmentid;
   Future<List> register() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -213,27 +214,28 @@ List booktime;
     });
     if (localStorage.getString("token") != null) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => Calendarscreen()),
+          MaterialPageRoute(
+              builder: (BuildContext context) => Calendarscreen()),
           (Route<dynamic> route) => false);
     }
   }
 
   Future<List> _createappointment() async {
     _formKey.currentState.validate();
-    
+
     if (useremail.text.length == 0 ||
         phonenumber.text.length == 0 ||
         !useremail.text.contains("@")) {
-     return null ;
+      return null;
     }
 //     else if( _insurancekey.currentState !=null)
 // {
 //   _insurancekey.currentState.validate();
 //   if (
 //   insurancename.text.length == 0 ||
-//         policynumber.text.length == 0 || 
-//         policydescription.text.length == 0 || 
-//         policynotes.text.length == 0 
+//         policynumber.text.length == 0 ||
+//         policydescription.text.length == 0 ||
+//         policynotes.text.length == 0
 //        ) {
 //      return null;
 //     }
@@ -292,19 +294,15 @@ List booktime;
 //     }
 // }
 
-
- 
-
     else {
       String sendfees;
-      if(check==true){
+      if (check == true) {
         setState(() {
-sendfees = setfees.text;
+          sendfees = setfees.text;
         });
-      }
-      else{
+      } else {
         setState(() {
-          sendfees= fees.text;
+          sendfees = fees.text;
         });
       }
       final response = await http.post(apipath + '/createAppointment', body: {
@@ -321,34 +319,34 @@ sendfees = setfees.text;
         'insurance_policy_number': policynumber.text,
         'insurance_description': policydescription.text,
         'insurance_notes': policynotes.text,
-        'timezone':dateTime.timeZoneName,
-        'pay_later':check.toString()
+        'timezone': dateTime.timeZoneName,
+        'pay_later': check.toString()
       }).then((vl) async {
         var body = json.decode(vl.body);
 
         if (body["msg"] == 'Doctor is not available on your selected time.') {
-          return 
-           showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          // title: new Center(
-          //   child:  Text("DOCTOR INFO"),
-          //   ),
-          content: new Text("Doctor is not available on your selected time."),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+          return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type Dialog
+              return AlertDialog(
+                // title: new Center(
+                //   child:  Text("DOCTOR INFO"),
+                //   ),
+                content:
+                    new Text("Doctor is not available on your selected time."),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                    child: new Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
 
           // AlertDialog(
           //                                                               shape: RoundedRectangleBorder(
@@ -388,48 +386,41 @@ sendfees = setfees.text;
           //                                                                         style: TextStyle(color: Colors.white),
           //                                                                       ),
           //                                                                       onPressed: () async {
-                                                                                    
-                                                                                      
+
           //                                                                       }),
-                                                                           
+
           //                                                                 ],
           //                                                               ),
           //                                                             );
-          
+
         } else if (body == 'No Data Found to create an Appointment..!') {
           return null;
-        } else if (body['is_payment_required'] == false||check==true) {
-           
-  showDialog(
-    
-    context: context,
- 
-    builder: (BuildContext context) {
-      return Dialog(
-        backgroundColor: Colors.transparent,
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-         crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            new CircularProgressIndicator(),
-          
-          ],
-        ),
-      );
-    },
-  );
-  new Future.delayed(new Duration(seconds: 2), () {
-      Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Doneappointment(
-                      doctorname: widget.doctor,
-                      // doctoremail: widget.email,payment_token
-                      appointmenttime: body['appointment_time'],
-                      appointmentdate: body['appointment_date'])));
-  });
-
-       
+        } else if (body['is_payment_required'] == false || check == true) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                backgroundColor: Colors.transparent,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    new CircularProgressIndicator(),
+                  ],
+                ),
+              );
+            },
+          );
+          new Future.delayed(new Duration(seconds: 2), () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Doneappointment(
+                        doctorname: widget.doctor,
+                        // doctoremail: widget.email,payment_token
+                        appointmenttime: body['appointment_time'],
+                        appointmentdate: body['appointment_date'])));
+          });
         } else {
           Navigator.push(
               context,
@@ -455,7 +446,6 @@ sendfees = setfees.text;
   }
 
   Future<List> _rescheduleappointment() async {
-  
     _formKey.currentState.validate();
     if (useremail.text.length == 0 ||
         phonenumber.text.length == 0 ||
@@ -475,58 +465,56 @@ sendfees = setfees.text;
       "user_id": _localid,
       'timezone': dateTime.timeZoneName
     }).then((vl) async {
-        var body = json.decode(vl.body);
+      var body = json.decode(vl.body);
       if (body["msg"] == 'Doctor is not available on your selected time.') {
-          return 
-           showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          // title: new Center(
-          //   child:  Text("DOCTOR INFO"),
-          //   ),
-          content: new Text("Doctor is not available on your selected time."),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+        return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // return object of type Dialog
+            return AlertDialog(
+              // title: new Center(
+              //   child:  Text("DOCTOR INFO"),
+              //   ),
+              content:
+                  new Text("Doctor is not available on your selected time."),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
-      },
-    );
- } else{
-  showDialog(
-    
-    context: context,
- 
-    builder: (BuildContext context) {
-      return Dialog(
-        backgroundColor: Colors.transparent,
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-         crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            new CircularProgressIndicator(),
-          
-          ],
-        ),
-      );
-    },
-  );
-  new Future.delayed(new Duration(seconds: 2), () {
-    Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => AppointmentDone(
-                  doctorname: widget.doctor,
-                  doctoremail: widget.email,
-                  appointmenttime: widget.appointment_datetime.toString())));
-  });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              backgroundColor: Colors.transparent,
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  new CircularProgressIndicator(),
+                ],
+              ),
+            );
+          },
+        );
+        new Future.delayed(new Duration(seconds: 2), () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AppointmentDone(
+                      doctorname: widget.doctor,
+                      doctoremail: widget.email,
+                      appointmenttime:
+                          widget.appointment_datetime.toString())));
+        });
 // Navigator.push(
 //           context,
 //           MaterialPageRoute(
@@ -534,8 +522,7 @@ sendfees = setfees.text;
 //                   doctorname: widget.doctor,
 //                   doctoremail: widget.email,
 //                   appointmenttime: widget.appointment_datetime.toString())));
- }
-      
+      }
     });
   }
 
@@ -553,43 +540,43 @@ sendfees = setfees.text;
       setState(() => widget.appointment_datetime = information);
     }
   }
+
   DateTime dd;
   var data;
- moveToSecondPage()async{
-   await http.post(apipath + '/getBookedAppointmentSlot',body: {
- "selected_date": DateFormat('yMd').format(widget.appointment_datetime),
- "holder_id": widget.holderid,
- "timezone":dateTime.timeZoneName
-}).then((value){
-  data = json.decode(value.body);
-if(value.body!='[]'){
-   booktime = data;
-
-}
+  moveToSecondPage() async {
+    await http.post(apipath + '/getBookedAppointmentSlot', body: {
+      "selected_date": DateFormat('yMd').format(widget.appointment_datetime),
+      "holder_id": widget.holderid,
+      "timezone": dateTime.timeZoneName
+    }).then((value) {
+      data = json.decode(value.body);
+      if (value.body != '[]') {
+        booktime = data;
+      }
 // else {
 //     data =[{"appointment_date" : "2021-10-13T00:00:00.000Z",
 // "holder_id" :'',
 // "appointment_time" : "00:00 AM"}];
 
 // }
-});
+    });
     DateTime selected_datetime = await Navigator.push(
       context,
       CupertinoPageRoute(
           fullscreenDialog: true,
-          builder: (context) =>
-              Dateselect(appointment_datetime:calendardate,
-              holderid:widget.holderid ,
-             bookedtime: data,
-             starttime:DateTime.parse(widget.starttime) ,
-             endtime: DateTime.parse(widget.endtime),
-             slotdifference: widget.slotdifference,
-              // widget.appointment_datetime.toLocal()
+          builder: (context) => Dateselect(
+                appointment_datetime: calendardate,
+                holderid: widget.holderid,
+                bookedtime: data,
+                starttime: DateTime.parse(widget.starttime),
+                endtime: DateTime.parse(widget.endtime),
+                slotdifference: widget.slotdifference,
+                // widget.appointment_datetime.toLocal()
               )),
     );
     updateInformation(selected_datetime);
-}
-//   void moveToSecondPage() async { 
+  }
+//   void moveToSecondPage() async {
 // await http.post(apipath + '/getBookedAppointmentSlot', body: {
 //       "selected_date": widget.appointment_datetime.toString(),
 //       "holder_id": widget.holderid,
@@ -602,75 +589,75 @@ if(value.body!='[]'){
 //         booktime=body['appointment_date'] ;
 //         });
 //         }
-     
+
 //  });
-    
-    // DateTime selected_datetime = await Navigator.push(
-    //   context,
-    //   CupertinoPageRoute(
-    //       fullscreenDialog: true,
-    //       builder: (context) =>
-    //           Dateselect(appointment_datetime:calendardate,
-    //           holderid:widget.holderid ,
-    //          bookedtime: booktime,
-    //           // widget.appointment_datetime.toLocal()
-    //           )),
-    // );
-    // updateInformation(selected_datetime);
+
+  // DateTime selected_datetime = await Navigator.push(
+  //   context,
+  //   CupertinoPageRoute(
+  //       fullscreenDialog: true,
+  //       builder: (context) =>
+  //           Dateselect(appointment_datetime:calendardate,
+  //           holderid:widget.holderid ,
+  //          bookedtime: booktime,
+  //           // widget.appointment_datetime.toLocal()
+  //           )),
+  // );
+  // updateInformation(selected_datetime);
 //   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  //     bottomNavigationBar: 
-  //     Container(
-        
-  //       height: 100,
-        
-  //       child:
-  //     Column(
-  //       crossAxisAlignment: CrossAxisAlignment.stretch,
-  //       children: [
-  // // RaisedButton(
-  // //       child: widget.appointment_id != null ?Text(
-  // //         'UPDATE',
-  // //         style: TextStyle(color: Colors.white),
-  // //       ):Text(
-  // //         'BOOK NOW, PAY LATER',
-  // //         style: TextStyle(color: Colors.white),
-  // //       ),
-  // //       onPressed: () {
-  // //         if (widget.appointment_id != null) {
-  // //           _rescheduleappointment();
-  // //         } else if (_localid != null) {
-  // //           _createappointment();
-  // //         } else {
-  // //           _registerndata();
-  // //         }
-  // //       },
-  // //       color: kPrimaryColor,
-  // //     ),
-  //     RaisedButton(
-  //       child: widget.appointment_id != null ?Text(
-  //         'UPDATE',
-  //         style: TextStyle(color: buttonTextColor),
-  //       ):Text(
-  //         'BOOK',
-  //         style: TextStyle(color: buttonTextColor),
-  //       ),
-  //       onPressed: () {
-  //         if (widget.appointment_id != null) {
-  //           _rescheduleappointment();
-  //         } else if (_localid != null) {
-  //           _createappointment();
-  //         } else {
-  //           _registerndata();
-  //         }
-  //       },
-  //       color: buttonColor,
-  //     ),
-  //     ],) ,),
-    
+      //     bottomNavigationBar:
+      //     Container(
+
+      //       height: 100,
+
+      //       child:
+      //     Column(
+      //       crossAxisAlignment: CrossAxisAlignment.stretch,
+      //       children: [
+      // // RaisedButton(
+      // //       child: widget.appointment_id != null ?Text(
+      // //         'UPDATE',
+      // //         style: TextStyle(color: Colors.white),
+      // //       ):Text(
+      // //         'BOOK NOW, PAY LATER',
+      // //         style: TextStyle(color: Colors.white),
+      // //       ),
+      // //       onPressed: () {
+      // //         if (widget.appointment_id != null) {
+      // //           _rescheduleappointment();
+      // //         } else if (_localid != null) {
+      // //           _createappointment();
+      // //         } else {
+      // //           _registerndata();
+      // //         }
+      // //       },
+      // //       color: kPrimaryColor,
+      // //     ),
+      //     RaisedButton(
+      //       child: widget.appointment_id != null ?Text(
+      //         'UPDATE',
+      //         style: TextStyle(color: buttonTextColor),
+      //       ):Text(
+      //         'BOOK',
+      //         style: TextStyle(color: buttonTextColor),
+      //       ),
+      //       onPressed: () {
+      //         if (widget.appointment_id != null) {
+      //           _rescheduleappointment();
+      //         } else if (_localid != null) {
+      //           _createappointment();
+      //         } else {
+      //           _registerndata();
+      //         }
+      //       },
+      //       color: buttonColor,
+      //     ),
+      //     ],) ,),
+
       body: SingleChildScrollView(
           child: Container(
         // color: kPrimaryLightColour,
@@ -678,9 +665,9 @@ if(value.body!='[]'){
             decoration: new BoxDecoration(
                 // color: Colors.white,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                )),
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+            )),
             padding: EdgeInsets.only(
               top: 0,
             ),
@@ -708,7 +695,7 @@ if(value.body!='[]'){
                               Text(
                                 'Book an appointment',
                                 style: TextStyle(
-                                    color:buttonTextColor, fontSize: 18),
+                                    color: buttonTextColor, fontSize: 18),
                               ),
                             ]),
                       ),
@@ -736,17 +723,20 @@ if(value.body!='[]'){
                                       child: CircleAvatar(
                                         backgroundColor: containerBorderColor,
                                         child: ClipOval(
-                                            child: widget.user_image!=null?CachedNetworkImage(
-                                              imageUrl: widget.user_image,
-                                              fit: BoxFit.fill,
-                                              width: 65.0,
-                                            ):Image.asset("assets/profile.png")
-                                        //     CachedNetworkImage(
-                                        //   imageUrl: widget.user_image==null?'assets/profile.png':widget.user_image,
-                                        //   fit: BoxFit.fill,
-                                        //   width: 65.0,
-                                        // )
-                                        ),
+                                            child: widget.user_image != null
+                                                ? CachedNetworkImage(
+                                                    imageUrl: widget.user_image,
+                                                    fit: BoxFit.fill,
+                                                    width: 65.0,
+                                                  )
+                                                : Image.asset(
+                                                    "assets/profile.png")
+                                            //     CachedNetworkImage(
+                                            //   imageUrl: widget.user_image==null?'assets/profile.png':widget.user_image,
+                                            //   fit: BoxFit.fill,
+                                            //   width: 65.0,
+                                            // )
+                                            ),
                                       ),
                                     ),
                                     Column(
@@ -764,26 +754,37 @@ if(value.body!='[]'){
                                               style: TextStyle(fontSize: 15),
                                             ),
                                           ),
-                                                                                    Row(
-                                     mainAxisAlignment: MainAxisAlignment.spaceAround,       children: [
-  Container(
-                                       
-                                            padding: EdgeInsets.only(left: 11),
-                                            child: AutoSizeText(
-                                       '${'Availabilty:'+ DateFormat.jm().format(DateTime.parse(widget.starttime).toLocal())}'  == null
-                                                    ? ""
-                                                    : '${'Availabilty :  '  + DateFormat.jm().format(DateTime.parse(widget.starttime).toLocal())}' ,
-                                                style: TextStyle(fontSize: 14)),
-                                          ),
-                                          AutoSizeText('-'),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
                                               Container(
-                                   
-                                            child: AutoSizeText(
-                                                        DateFormat.jm().format(DateTime.parse(widget.endtime).toLocal())  == null
-                                                    ? ""
-                                                    :DateFormat.jm().format(DateTime.parse(widget.endtime).toLocal()) ,
-                                                style: TextStyle(fontSize: 14)),
-                                          ),
+                                                padding:
+                                                    EdgeInsets.only(left: 11),
+                                                child: AutoSizeText(
+                                                    '${'Availabilty:' + DateFormat.jm().format(DateTime.parse(widget.starttime).toLocal())}' ==
+                                                            null
+                                                        ? ""
+                                                        : '${'Availabilty :  ' + DateFormat.jm().format(DateTime.parse(widget.starttime).toLocal())}',
+                                                    style: TextStyle(
+                                                        fontSize: 14)),
+                                              ),
+                                              AutoSizeText('-'),
+                                              Container(
+                                                child: AutoSizeText(
+                                                    DateFormat.jm().format(DateTime
+                                                                    .parse(widget
+                                                                        .endtime)
+                                                                .toLocal()) ==
+                                                            null
+                                                        ? ""
+                                                        : DateFormat.jm().format(
+                                                            DateTime.parse(widget
+                                                                    .endtime)
+                                                                .toLocal()),
+                                                    style: TextStyle(
+                                                        fontSize: 14)),
+                                              ),
                                             ],
                                           )
                                           // Container(
@@ -808,7 +809,6 @@ if(value.body!='[]'){
                             ],
                           )),
                       Container(
-                        
                           padding: EdgeInsets.only(top: 6, left: 20, right: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -882,7 +882,6 @@ if(value.body!='[]'){
                                     ],
                                   )),
                               Container(
-                              
                                   child: Row(
                                 children: <Widget>[
                                   Container(
@@ -891,22 +890,31 @@ if(value.body!='[]'){
                                     decoration: BoxDecoration(
                                       color: greyContainer,
                                       border: Border.all(
-                                          width: 1, color: containerBorderColor),
+                                          width: 1,
+                                          color: containerBorderColor),
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(
                                         5.0,
                                       )),
                                     ),
                                     child: Padding(
-                                        padding:
-                                            EdgeInsets.only(top: 13, left: 2,right: 2),
-                                        child: 
-                                        Text(
-                                         widget.calendarvalue=='1'? 
-                                        //  DateFormat('yMd HH:mm a').format(widget.appointment_datetime.toLocal()):
-                                        //  DateFormat('yMd HH:mm a').format(widget.appointment_datetime.toLocal()),
-                                          new DateFormat.yMd().add_jm().format(widget.appointment_datetime.toLocal()):
-                                           new DateFormat.yMd().add_jm().format(widget.appointment_datetime.toLocal()),
+                                        padding: EdgeInsets.only(
+                                            top: 13, left: 2, right: 2),
+                                        child: Text(
+                                          widget.calendarvalue == '1'
+                                              ?
+                                              //  DateFormat('yMd HH:mm a').format(widget.appointment_datetime.toLocal()):
+                                              //  DateFormat('yMd HH:mm a').format(widget.appointment_datetime.toLocal()),
+                                              new DateFormat.yMd()
+                                                  .add_jm()
+                                                  .format(widget
+                                                      .appointment_datetime
+                                                      .toLocal())
+                                              : new DateFormat.yMd()
+                                                  .add_jm()
+                                                  .format(widget
+                                                      .appointment_datetime
+                                                      .toLocal()),
                                           style: TextStyle(
                                             fontSize: 13,
                                           ),
@@ -919,7 +927,8 @@ if(value.body!='[]'){
                                     decoration: BoxDecoration(
                                       color: greyContainer,
                                       border: Border.all(
-                                          width: 1, color:containerBorderColor),
+                                          width: 1,
+                                          color: containerBorderColor),
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(
                                         5.0,
@@ -934,311 +943,315 @@ if(value.body!='[]'){
                                   SizedBox(
                                     width: 2,
                                   ),
-                                  widget.payment_required == true 
-                                      ?  Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                             
-                                  children: <Widget>[
-                                    check==false?
-                                      Container(
-                                          width: 80,
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                            color: greyContainer,
-                                            border: Border.all(
-                                                width: 1, color:containerBorderColor),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(
-                                              5.0,
-                                            )),
-                                          ),
-                                          child: TextFormField(
-                                            controller:check==true?setfees: fees,
-                                            keyboardType:
-                                                TextInputType.number,
-                                            decoration: new InputDecoration(
-                                                fillColor: greyContainer,
-                                                filled: true,
-                                                labelText: 'Fees',
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 14,
-                                                    right: 14,
-                                                    top: 2),
-                                                border: new OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5.0)),
-                                                )),
-                                                
-                                          )):Container()
-                                        ])
+                                  widget.payment_required == true
+                                      ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: <Widget>[
+                                              check == false
+                                                  ? Container(
+                                                      width: 80,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                        color: greyContainer,
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color:
+                                                                containerBorderColor),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                          5.0,
+                                                        )),
+                                                      ),
+                                                      child: TextFormField(
+                                                        controller:
+                                                            check == true
+                                                                ? setfees
+                                                                : fees,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        decoration:
+                                                            new InputDecoration(
+                                                                fillColor:
+                                                                    greyContainer,
+                                                                filled: true,
+                                                                labelText:
+                                                                    'Fees',
+                                                                contentPadding:
+                                                                    EdgeInsets.only(
+                                                                        left:
+                                                                            14,
+                                                                        right:
+                                                                            14,
+                                                                        top: 2),
+                                                                border:
+                                                                    new OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              5.0)),
+                                                                )),
+                                                      ))
+                                                  : Container()
+                                            ])
                                       : Container(),
                                 ],
                               )),
                               SizedBox(
                                 height: 10,
                               ),
-                            
-                            
                             ],
                           )),
-                           Container(
-                        
+                      Container(
                           padding: EdgeInsets.only(top: 6, left: 5, right: 5),
-                          child:
-                          Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    
-                                  
-                                     
-                                        // widget.payment_required == true
-                                        //     ?
-                                            FlatButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    press = true;
-                                                  });
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                // widget.payment_required == true
+                                //     ?
+                                FlatButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        press = true;
+                                      });
+                                    },
+                                    child: press
+                                        ? Column(
+                                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              TextFormField(
+                                                controller: insurancename,
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                decoration: new InputDecoration(
+                                                    fillColor: greyContainer,
+                                                    filled: true,
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 14,
+                                                            right: 14,
+                                                            top: 2),
+                                                    labelText:
+                                                        'Insurance Provider',
+                                                    border:
+                                                        new OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5.0)),
+                                                    )),
+                                                validator: (val) {
+                                                  if (val.length == 0)
+                                                    return "Please enter Insurance Name";
                                                 },
-                                                child: press
-                                                    ? 
-                                                    Column(
-                                                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                                                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                        children: <Widget>[
-                                                       
-                                                          TextFormField(
-                                                            controller:
-                                                                insurancename,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .emailAddress,
-                                                            decoration:
-                                                                new InputDecoration(
-                                                                    fillColor:
-                                                                        greyContainer,
-                                                                    filled:
-                                                                        true,
-                                                                    contentPadding: EdgeInsets.only(
-                                                                        left:
-                                                                            14,
-                                                                        right:
-                                                                            14,
-                                                                        top: 2),
-                                                                    labelText:
-                                                                        'Insurance Provider',
-                                                                    border:
-                                                                        new OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(5.0)),
-                                                                    )),   validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter Insurance Name";
-                                        },
-                                        onSaved: (val) => _insurancename = val,
-                                                          ),
-                                                          
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          TextFormField(
-                                                            controller:
-                                                                policynumber,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            decoration:
-                                                                new InputDecoration(
-                                                                    fillColor:
-                                                                      greyContainer,
-                                                                    filled:
-                                                                        true,
-                                                                    labelText:
-                                                                        'Policy Number',
-                                                                    contentPadding: EdgeInsets.only(
-                                                                        left:
-                                                                            14,
-                                                                        right:
-                                                                            14,
-                                                                        top: 2),
-                                                                    border:
-                                                                        new OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(5.0)),
-                                                                    )),   validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter PolicyNo";
-                                        },
-                                        onSaved: (val) => _policynum = val,
-                                                          ),
-                                        //                   SizedBox(
-                                        //                     height: 5,
-                                        //                   ),
-                                        //                   TextFormField(
-                                        //                     controller:
-                                        //                         policydescription,
-                                        //                     keyboardType:
-                                        //                         TextInputType
-                                        //                             .emailAddress,
-                                        //                     decoration:
-                                        //                         new InputDecoration(
-                                        //                             fillColor:
-                                        //                                 Colors.grey[
-                                        //                                     300],
-                                        //                             filled:
-                                        //                                 true,
-                                        //                             labelText:
-                                        //                                 'Description',
-                                        //                             contentPadding: EdgeInsets.only(
-                                        //                                 left:
-                                        //                                     14,
-                                        //                                 right:
-                                        //                                     14,
-                                        //                                 top: 2),
-                                        //                             border:
-                                        //                                 new OutlineInputBorder(
-                                        //                               borderRadius:
-                                        //                                   BorderRadius.all(
-                                        //                                       Radius.circular(5.0)),
-                                        //                             )),   validator: (val) {
-                                        //   if (val.length == 0)
-                                        //     return "Please enter Description";
-                                        // },
-                                        // onSaved: (val) => _policydes = val,
-                                        //                   ),
-                                        //                   SizedBox(
-                                        //                     height: 5,
-                                        //                   ),
-                                        //                   TextFormField(
-                                        //                     controller:
-                                        //                         policynotes,
-                                        //                     keyboardType:
-                                        //                         TextInputType
-                                        //                             .emailAddress,
-                                        //                     decoration:
-                                        //                         new InputDecoration(
-                                        //                             fillColor:
-                                        //                                 Colors.grey[
-                                        //                                     300],
-                                        //                             filled:
-                                        //                                 true,
-                                        //                             labelText:
-                                        //                                 'Notes',
-                                        //                             contentPadding: EdgeInsets.only(
-                                        //                                 left:
-                                        //                                     14,
-                                        //                                 right:
-                                        //                                     14,
-                                        //                                 top: 2),
-                                        //                             border:
-                                        //                                 new OutlineInputBorder(
-                                        //                               borderRadius:
-                                        //                                   BorderRadius.all(
-                                        //                                       Radius.circular(5.0)),
-                                        //                             )),   validator: (val) {
-                                        //   if (val.length == 0)
-                                        //     return "Please enter Notes";
-                                        // },
-                                        // onSaved: (val) => _policynote = val,
-                                        //                   ),
-                                                          SizedBox(height: 5,),
-                                                           TextFormField(
-                                                            controller:
-                                                                insurancegroupnumber,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .emailAddress,
-                                                            decoration:
-                                                                new InputDecoration(
-                                                                    fillColor:
-                                                                       greyContainer,
-                                                                    filled:
-                                                                        true,
-                                                                    contentPadding: EdgeInsets.only(
-                                                                        left:
-                                                                            14,
-                                                                        right:
-                                                                            14,
-                                                                        top: 2),
-                                                                    labelText:
-                                                                        'Group Number',
-                                                                    border:
-                                                                        new OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(5.0)),
-                                                                    )),   validator: (val) {
-                                          if (val.length == 0)
-                                            return "Please enter InsuranceGroup Number";
-                                        },
-                                        onSaved: (val) => _insurancegoupnum = val,
-                                                          ),
-                                                        ],
-                                                       )   
-                                                    :
-                                                     Container(
-                                              height: 30,
-                                              width: 160,
-                                                      decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    border: Border.all(
-                                        width: 1, color: containerBorderColor),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
-                               
-                                                 ),
-                                                      child: Center(child: Text('Add Insurance Info',style: TextStyle(fontSize: 16),
-                                                      textAlign: TextAlign.center,),) 
-                                                    )
-                                                    
-                                                    
-                                                   )
-                                           // : null
-                                         
-                                  ])),SizedBox(height: 8,),
-                                  widget.appointment_id==null &&  widget.payment_required == true?
-                                  Container(
-                                    padding: EdgeInsets.only(left:24),
-           
-            height: 30,
-            child:Row(
-              children: [
-                Text('Pay Later',style: TextStyle(fontSize: 16),),
-                    Switch(
-              value: check,
-              onChanged: (value) {
-                setState(() {
-                  check = value;
-                });
-                print(check);
-              },             
-            ),
-              ],
-            )
-        
-          ):Container(),
-           RaisedButton(
-        child: widget.appointment_id != null ?Text(
-          'UPDATE',
-          style: TextStyle(color: buttonTextColor),
-        ):Text(
-          'BOOK',
-          style: TextStyle(color: buttonTextColor),
-        ),
-        onPressed: () {
-          if (widget.appointment_id != null) {
-            _rescheduleappointment();
-          } else if (_localid != null) {
-            _createappointment();
-          } else {
-            _registerndata();
-          }
-        },
-        color: buttonColor,
-      ),
+                                                onSaved: (val) =>
+                                                    _insurancename = val,
+                                              ),
+
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              TextFormField(
+                                                controller: policynumber,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                decoration: new InputDecoration(
+                                                    fillColor: greyContainer,
+                                                    filled: true,
+                                                    labelText: 'Policy Number',
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 14,
+                                                            right: 14,
+                                                            top: 2),
+                                                    border:
+                                                        new OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5.0)),
+                                                    )),
+                                                validator: (val) {
+                                                  if (val.length == 0)
+                                                    return "Please enter PolicyNo";
+                                                },
+                                                onSaved: (val) =>
+                                                    _policynum = val,
+                                              ),
+                                              //                   SizedBox(
+                                              //                     height: 5,
+                                              //                   ),
+                                              //                   TextFormField(
+                                              //                     controller:
+                                              //                         policydescription,
+                                              //                     keyboardType:
+                                              //                         TextInputType
+                                              //                             .emailAddress,
+                                              //                     decoration:
+                                              //                         new InputDecoration(
+                                              //                             fillColor:
+                                              //                                 Colors.grey[
+                                              //                                     300],
+                                              //                             filled:
+                                              //                                 true,
+                                              //                             labelText:
+                                              //                                 'Description',
+                                              //                             contentPadding: EdgeInsets.only(
+                                              //                                 left:
+                                              //                                     14,
+                                              //                                 right:
+                                              //                                     14,
+                                              //                                 top: 2),
+                                              //                             border:
+                                              //                                 new OutlineInputBorder(
+                                              //                               borderRadius:
+                                              //                                   BorderRadius.all(
+                                              //                                       Radius.circular(5.0)),
+                                              //                             )),   validator: (val) {
+                                              //   if (val.length == 0)
+                                              //     return "Please enter Description";
+                                              // },
+                                              // onSaved: (val) => _policydes = val,
+                                              //                   ),
+                                              //                   SizedBox(
+                                              //                     height: 5,
+                                              //                   ),
+                                              //                   TextFormField(
+                                              //                     controller:
+                                              //                         policynotes,
+                                              //                     keyboardType:
+                                              //                         TextInputType
+                                              //                             .emailAddress,
+                                              //                     decoration:
+                                              //                         new InputDecoration(
+                                              //                             fillColor:
+                                              //                                 Colors.grey[
+                                              //                                     300],
+                                              //                             filled:
+                                              //                                 true,
+                                              //                             labelText:
+                                              //                                 'Notes',
+                                              //                             contentPadding: EdgeInsets.only(
+                                              //                                 left:
+                                              //                                     14,
+                                              //                                 right:
+                                              //                                     14,
+                                              //                                 top: 2),
+                                              //                             border:
+                                              //                                 new OutlineInputBorder(
+                                              //                               borderRadius:
+                                              //                                   BorderRadius.all(
+                                              //                                       Radius.circular(5.0)),
+                                              //                             )),   validator: (val) {
+                                              //   if (val.length == 0)
+                                              //     return "Please enter Notes";
+                                              // },
+                                              // onSaved: (val) => _policynote = val,
+                                              //                   ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              TextFormField(
+                                                controller:
+                                                    insurancegroupnumber,
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                decoration: new InputDecoration(
+                                                    fillColor: greyContainer,
+                                                    filled: true,
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 14,
+                                                            right: 14,
+                                                            top: 2),
+                                                    labelText: 'Group Number',
+                                                    border:
+                                                        new OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5.0)),
+                                                    )),
+                                                validator: (val) {
+                                                  if (val.length == 0)
+                                                    return "Please enter InsuranceGroup Number";
+                                                },
+                                                onSaved: (val) =>
+                                                    _insurancegoupnum = val,
+                                              ),
+                                            ],
+                                          )
+                                        : Container(
+                                            height: 30,
+                                            width: 160,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[300],
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: containerBorderColor),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5.0)),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Add Insurance Info',
+                                                style: TextStyle(fontSize: 16),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )))
+                                // : null
+                              ])),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      widget.appointment_id == null &&
+                              widget.payment_required == true
+                          ? Container(
+                              padding: EdgeInsets.only(left: 24),
+                              height: 30,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Pay Later',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Switch(
+                                    value: check,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        check = value;
+                                      });
+                                      print(check);
+                                    },
+                                  ),
+                                ],
+                              ))
+                          : Container(),
+                      RaisedButton(
+                        child: widget.appointment_id != null
+                            ? Text(
+                                'UPDATE',
+                                style: TextStyle(color: buttonTextColor),
+                              )
+                            : Text(
+                                'BOOK',
+                                style: TextStyle(color: buttonTextColor),
+                              ),
+                        onPressed: () {
+                          if (widget.appointment_id != null) {
+                            _rescheduleappointment();
+                          } else if (_localid != null) {
+                            _createappointment();
+                          } else {
+                            _registerndata();
+                          }
+                        },
+                        color: buttonColor,
+                      ),
                     ]),
               ],
             )),

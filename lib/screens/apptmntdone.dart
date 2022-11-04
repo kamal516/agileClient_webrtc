@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:angles/angles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/homescreen.dart';
 
 class AppointmentDone extends StatefulWidget {
   final double size;
@@ -41,7 +41,7 @@ class _TestcatState extends State<AppointmentDone>
 
   AnimationController _controller;
   Animation<double> curve;
-String settime;
+  String settime;
   @override
   void initState() {
     super.initState();
@@ -58,26 +58,25 @@ String settime;
       }
     });
     _controller.forward();
-       setState(() {
+    setState(() {
       settime = widget.appointmenttime;
     });
-  print(settime);
+    print(settime);
   }
+
   Timer _timer;
- void startTimer() {
- 
-  _timer = new Timer.periodic(new Duration(seconds: 2), (time) {
-          Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            Upcomingappointment()),
-                                    (Route<dynamic> route) => false);
+  void startTimer() {
+    _timer = new Timer.periodic(new Duration(seconds: 2), (time) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (BuildContext context) => Upcomingappointment()),
+          (Route<dynamic> route) => false);
     });
   }
+
   int modifyList;
   int donelist;
   final String apiUrl = "http://192.168.1.9:3040/triage_test";
-
 
   Future<List<dynamic>> fetchUsers() async {
     var result = await http.get(apiUrl);
@@ -108,7 +107,6 @@ String settime;
                   bottomLeft: const Radius.circular(40.0),
                   bottomRight: const Radius.circular(40.0),
                 )),
-          
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -134,14 +132,16 @@ String settime;
                         ),
                         Text(
                           'Your done!',
-                          style: TextStyle(fontSize: 17, color:buttonTextColor),
+                          style:
+                              TextStyle(fontSize: 17, color: buttonTextColor),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
                           'Successfully updated appointment with',
-                          style: TextStyle(fontSize: 17, color: buttonTextColor),
+                          style:
+                              TextStyle(fontSize: 17, color: buttonTextColor),
                         ),
                         SizedBox(
                           height: 20,
@@ -158,7 +158,7 @@ String settime;
                         // ),
                         // Text(
                         //   '',
-                       
+
                         //   style: TextStyle(
                         //       fontSize: 17,
                         //       fontWeight: FontWeight.bold,
@@ -169,7 +169,6 @@ String settime;
                         // ),
                         // Text(
                         //   '',
-                          
 
                         //   style: TextStyle(
                         //       fontSize: 17, fontWeight: FontWeight.bold),
@@ -178,25 +177,28 @@ String settime;
                           height: 10,
                         ),
                         Text(
-                   
                           widget.appointmenttime == null
                               ? ""
                               : DateFormat(' EEEE, d MMMM y').format(
-                                  DateTime.parse(widget.appointmenttime).toLocal()),
+                                  DateTime.parse(widget.appointmenttime)
+                                      .toLocal()),
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: buttonTextColor),
+                        ),
+                        Text(
+                          // widget.appointmenttime,
+                          widget.appointmenttime == null
+                              ? ""
+                              : DateFormat.jm().format(DateTime.parse(settime)),
+                          //  DateFormat('kk:mm:a').format(DateTime.parse(widget.appointmenttime).toLocal()),
 
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                               color: buttonTextColor),
                         ),
-                                                    Text(
-                   // widget.appointmenttime,
-                       widget.appointmenttime==null?"": DateFormat.jm().format(DateTime.parse(settime))   , 
-                      //  DateFormat('kk:mm:a').format(DateTime.parse(widget.appointmenttime).toLocal()),
-                       
-                         
-                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: buttonTextColor),
-                          ),
                       ]),
                   // SizedBox(
                   //   height: 30,
@@ -205,12 +207,12 @@ String settime;
                   //     mainAxisAlignment: MainAxisAlignment.center,
                   //     crossAxisAlignment: CrossAxisAlignment.stretch,
                   //     children: <Widget>[
-                       
+
                   //       Container(
                   //           padding: EdgeInsets.only(left: 10, right: 10),
                   //           child: RaisedButton(
                   //             onPressed: () {
-                              
+
                   //               Navigator.of(context).pushAndRemoveUntil(
                   //                   MaterialPageRoute(
                   //                       builder: (BuildContext context) =>
@@ -220,7 +222,7 @@ String settime;
                   //             shape: RoundedRectangleBorder(
                   //                 borderRadius: BorderRadius.circular(10.0)),
                   //             color: modifyList == 0 ? Colors.grey : Colors.white,
-                            
+
                   //             child: Text(
                   //               'DONE',
                   //               style: TextStyle(color: blackTextColor),
@@ -259,7 +261,6 @@ class CheckPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
- 
     var rect = Offset(0, 0) & size;
     _paint.color = Colors.white;
 
@@ -279,8 +280,6 @@ class CheckPainter extends CustomPainter {
         Angle.fromDegrees(360).radians, false, _paint);
     canvas.drawLine(Offset(line1x1, line1y1), Offset(line1x2, line1y2), _paint);
     canvas.drawLine(Offset(line2x1, line2y1), Offset(line1x2, line1y2), _paint);
-
- 
 
     double circleValue, checkValue;
     if (value < .5) {
@@ -340,8 +339,6 @@ class CheckPainter extends CustomPainter {
       canvas.drawLine(Offset(auxLine1x1, auxLine1y1),
           Offset(auxLine1x2, auxLine1y2), _paint);
     }
-
-  
 
     double auxLine2x1 = (line2x1 - line1x2) * line2Value;
     double auxLine2y1 =

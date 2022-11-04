@@ -4,17 +4,17 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/categories.dart';
-import 'package:newagileapp/screens/login.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/categories.dart';
+import 'package:doctoragileapp/screens/login.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
 
-import 'package:newagileapp/triage/detailpage.dart';
-import 'package:newagileapp/triage/doctrinfo.dart';
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/triage/detailpage.dart';
+import 'package:doctoragileapp/triage/doctrinfo.dart';
+import 'package:doctoragileapp/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 
 class Doctorlist extends StatefulWidget {
   final DateTime time;
@@ -38,27 +38,25 @@ class _DoctorListState extends State<Doctorlist> {
   String _listbyid;
   void initState() {
     super.initState();
-  //    if (widget.calendarvalue== '1') {
-  //  calendardate= widget.appointment_datetime ;
-  //   }
-  //   else{
-  //      calendardate= widget.appointment_datetime.toLocal() ;
-  //   }
+    //    if (widget.calendarvalue== '1') {
+    //  calendardate= widget.appointment_datetime ;
+    //   }
+    //   else{
+    //      calendardate= widget.appointment_datetime.toLocal() ;
+    //   }
     _gettoken();
-
-   
   }
 
   String _token;
-   String _institute_id;
+  String _institute_id;
   _gettoken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       _token = preferences.getString("token");
-       _institute_id = preferences.getString("institute_id");
+      _institute_id = preferences.getString("institute_id");
       // _listbyid = preferences.getString("appointment_id");
     });
-     fetchdoctr();
+    fetchdoctr();
     print(_institute_id);
   }
 
@@ -71,7 +69,7 @@ class _DoctorListState extends State<Doctorlist> {
   }
 
   List doctorbyiddata;
-    List timeslot;
+  List timeslot;
   int _id;
   String _email(dynamic user) {
     return user['email'];
@@ -86,8 +84,8 @@ class _DoctorListState extends State<Doctorlist> {
       final response = await http.post(apipath + '/doctorListBySearch', body: {
         "username": _problem.text,
         "searchword": _problem.text,
-        'selectedDate':widget.appointment_date.toString(),
-        'institute_id':_institute_id.toString()
+        'selectedDate': widget.appointment_date.toString(),
+        'institute_id': _institute_id.toString()
       }).then((result) async {
         result.body;
         if (result.body == '"No Data"') {
@@ -120,45 +118,42 @@ class _DoctorListState extends State<Doctorlist> {
       });
     }
   }
-DateTime dateTime = DateTime.now();
+
+  DateTime dateTime = DateTime.now();
   _fetcheddoctor(int index) async {
     final ddata = await http.post(apipath + '/doctorListById', body: {
       "user_id": alldocotor[index]["user_id"].toString(),
- 'timezone': dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((value) {
       // return value.body;
       setState(() {
         doctorbyiddata = jsonDecode(value.body);
       });
-  http.post(apipath + '/doctorListByIdAppointment', body: {
-
-'appointment_date':_senddate.toLocal().toString(),
-
-'timezone':_currenttime.timeZoneName,
-      "user_id":alldocotor[0]['user_id'].toString(),
-    }).then((val){
-  setState(() {
-        timeslot = jsonDecode(val.body);
-});
-  Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Doctorinfo(
+      http.post(apipath + '/doctorListByIdAppointment', body: {
+        'appointment_date': _senddate.toLocal().toString(),
+        'timezone': _currenttime.timeZoneName,
+        "user_id": alldocotor[0]['user_id'].toString(),
+      }).then((val) {
+        setState(() {
+          timeslot = jsonDecode(val.body);
+        });
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Doctorinfo(
                     detaildoctor: doctorbyiddata,
                     appoint_time: widget.appointment_date,
-                   starttime:timeslot[0]['available_start_time'],
-                   endtime:timeslot[0]['available_end_time'],
-                  slotdifference:timeslot[0]['slot_size']
-                  )));
-    });
-    
+                    starttime: timeslot[0]['available_start_time'],
+                    endtime: timeslot[0]['available_end_time'],
+                    slotdifference: timeslot[0]['slot_size'])));
+      });
     });
   }
 
   _doctordata(int index) async {
     final ddata = await http.post(apipath + '/doctorListById', body: {
       "user_id": data[index]["user_id"].toString(),
-       'timezone': dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((value) {
       // return value.body;
       setState(() {
@@ -170,41 +165,41 @@ DateTime dateTime = DateTime.now();
               builder: (context) => Doctorinfo(
                     detaildoctor: doctorbyiddata,
                     appoint_time: widget.appointment_date,
-       )));
+                  )));
     });
   }
 
   List alldocotor;
   final String apiUrl = apipath + '/doctorList';
-DateTime _senddate ;
+  DateTime _senddate;
   Future<List<dynamic>> fetchdoctr() async {
-if(widget.time != null){
-  _senddate =widget.time;
-}else{
-   _senddate =widget.appointment_date;
-}
-    var result = await http.post(apiUrl,body: {
-     'selectedDate':_senddate.toLocal().toString(),
-     //widget.appointment_date.toLocal().toString(),
-       'timezone': dateTime.timeZoneName,
-       'institute_id':_institute_id.toString()
+    if (widget.time != null) {
+      _senddate = widget.time;
+    } else {
+      _senddate = widget.appointment_date;
+    }
+    var result = await http.post(apiUrl, body: {
+      'selectedDate': _senddate.toLocal().toString(),
+      //widget.appointment_date.toLocal().toString(),
+      'timezone': dateTime.timeZoneName,
+      'institute_id': _institute_id.toString()
     });
 
     setState(() {
       alldocotor = json.decode(result.body);
     });
-  
+
     print(alldocotor);
   }
-DateTime _currenttime = DateTime.now();
+
+  DateTime _currenttime = DateTime.now();
   // _doctorlist(int index) async {
-   
+
   // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavBar(),
-      
         body: SingleChildScrollView(
           child: Container(
             //       padding: EdgeInsets.only(top: 15, left: 5, right: 5),
@@ -213,9 +208,9 @@ DateTime _currenttime = DateTime.now();
                 decoration: new BoxDecoration(
                     // color: Colors.white,
                     borderRadius: new BorderRadius.only(
-                      topLeft: const Radius.circular(40.0),
-                      topRight: const Radius.circular(40.0),
-                    )),
+                  topLeft: const Radius.circular(40.0),
+                  topRight: const Radius.circular(40.0),
+                )),
                 padding: EdgeInsets.only(
                   top: 0,
                 ),
@@ -279,8 +274,8 @@ DateTime _currenttime = DateTime.now();
                             Text(
                               "Filter Doctor/ Specialist by Profile",
                               textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(fontSize: 16, color: buttonTextColor),
+                              style: TextStyle(
+                                  fontSize: 16, color: buttonTextColor),
                             ),
                             SizedBox(
                               height: 13,
@@ -431,8 +426,7 @@ DateTime _currenttime = DateTime.now();
                             itemBuilder: (BuildContext context, int index) {
                               List<dynamic> user = alldocotor;
                               //if(data==null){
-                              return 
-                              Card(
+                              return Card(
                                   color: greyContainer,
                                   child: Row(
                                     children: <Widget>[
@@ -448,14 +442,17 @@ DateTime _currenttime = DateTime.now();
                                             backgroundColor: greyContainer,
                                             //radius: 5,
                                             child: ClipOval(
-                                              
                                                 child: user[index]
-                                                  ['user_profile']!=null?CachedNetworkImage(
-                                              imageUrl: user[index]
-                                                  ['user_profile'],
-                                              fit: BoxFit.fill,
-                                              width: 65.0,
-                                            ):Image.asset("assets/profile.png")),
+                                                            ['user_profile'] !=
+                                                        null
+                                                    ? CachedNetworkImage(
+                                                        imageUrl: user[index]
+                                                            ['user_profile'],
+                                                        fit: BoxFit.fill,
+                                                        width: 65.0,
+                                                      )
+                                                    : Image.asset(
+                                                        "assets/profile.png")),
                                           ),
                                         ),
                                       ),
@@ -471,49 +468,71 @@ DateTime _currenttime = DateTime.now();
                                                       ? ""
                                                       : user[index]['email']),
                                               onTap: () {
-                                                 final ddata =  http.post(apipath + '/doctorListByIdAppointment', body: {
-
-'appointment_date':_senddate.toLocal().toString(),
-
-'timezone':_currenttime.timeZoneName,
-      "user_id":user[index]['user_id'].toString(),
-    }).then((value) {
-      // return value.body;
-      setState(() {
-        doctorbyiddata = jsonDecode(value.body);
-
-      });
-      print(DateFormat.jm().format(DateTime.parse(doctorbyiddata[0]['available_start_time'])));
-    return   Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Detailpage(
-                                                              starttime:doctorbyiddata[0]['available_start_time'] ,
-                                                              endtime:doctorbyiddata[0]['available_end_time'] ,
-                                                                doctor: _user(user[index],
-                                                                ),
-                                                                email: _email(
-                                                                  user[index],
-                                                                ),
-                                                                appointment_datetime:
-                                                                    widget
-                                                                        .appointment_date,
-                                                                holderid: user[index]['user_id'].toString(),
-                                                                user_image: user[
-                                                                        index][
-                                                                    'user_profile'], 
-                                                                    payment_required: user[
-                                                                    index][
-                                                                'is_payment_required'] ,
-                                                                price: user[
-                                                                    index][
-                                                                'price'],slotdifference:doctorbyiddata[0]['slot_size']
-                                                                // holderid: _holderid(
-                                                                //   snapshot.alldocotor[index],
-                                                                // ),
-                                                                )));
-    });
+                                                final ddata = http.post(
+                                                    apipath +
+                                                        '/doctorListByIdAppointment',
+                                                    body: {
+                                                      'appointment_date':
+                                                          _senddate
+                                                              .toLocal()
+                                                              .toString(),
+                                                      'timezone': _currenttime
+                                                          .timeZoneName,
+                                                      "user_id": user[index]
+                                                              ['user_id']
+                                                          .toString(),
+                                                    }).then((value) {
+                                                  // return value.body;
+                                                  setState(() {
+                                                    doctorbyiddata =
+                                                        jsonDecode(value.body);
+                                                  });
+                                                  print(DateFormat.jm().format(
+                                                      DateTime.parse(
+                                                          doctorbyiddata[0][
+                                                              'available_start_time'])));
+                                                  return Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Detailpage(
+                                                                  starttime:
+                                                                      doctorbyiddata[0][
+                                                                          'available_start_time'],
+                                                                  endtime: doctorbyiddata[0]
+                                                                      [
+                                                                      'available_end_time'],
+                                                                  doctor: _user(
+                                                                    user[index],
+                                                                  ),
+                                                                  email: _email(
+                                                                    user[index],
+                                                                  ),
+                                                                  appointment_datetime:
+                                                                      widget
+                                                                          .appointment_date,
+                                                                  holderid:
+                                                                      user[index]['user_id']
+                                                                          .toString(),
+                                                                  user_image:
+                                                                      user[index]
+                                                                          [
+                                                                          'user_profile'],
+                                                                  payment_required:
+                                                                      user[index]
+                                                                          [
+                                                                          'is_payment_required'],
+                                                                  price: user[
+                                                                          index]
+                                                                      ['price'],
+                                                                  slotdifference:
+                                                                      doctorbyiddata[0]
+                                                                          ['slot_size']
+                                                                  // holderid: _holderid(
+                                                                  //   snapshot.alldocotor[index],
+                                                                  // ),
+                                                                  )));
+                                                });
                                                 //  _doctorlist(user[index]['user_id']) ;
                                                 // Navigator.push(
                                                 //     context,
@@ -536,7 +555,7 @@ DateTime _currenttime = DateTime.now();
                                                 //                     .toString(),
                                                 //                 user_image: user[
                                                 //                         index][
-                                                //                     'user_profile'], 
+                                                //                     'user_profile'],
                                                 //                     payment_required: user[
                                                 //                     index][
                                                 //                 'is_payment_required'] ,
@@ -561,27 +580,26 @@ DateTime _currenttime = DateTime.now();
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         Detailpage(
-                                                            doctor: user[index]
-                                                                ['username'],
-                                                            email: user[index]
-                                                                ['email'],
-                                                            appointment_datetime:
-                                                                widget
-                                                                    .appointment_date,
-                                                            //  widget
-                                                            //     .timer
-                                                            //     .toString(),
-                                                            holderid: user[
-                                                                        index]
-                                                                    ['user_id']
-                                                                .toString(),
-                                                            user_image: user[
-                                                                    index][
-                                                                'user_profile'],
-                                                                // payment_required: user[
-                                                                //     index][
-                                                                // 'is_payment_required'] ,
-                                                                )));
+                                                          doctor: user[index]
+                                                              ['username'],
+                                                          email: user[index]
+                                                              ['email'],
+                                                          appointment_datetime:
+                                                              widget
+                                                                  .appointment_date,
+                                                          //  widget
+                                                          //     .timer
+                                                          //     .toString(),
+                                                          holderid: user[index]
+                                                                  ['user_id']
+                                                              .toString(),
+                                                          user_image: user[
+                                                                  index]
+                                                              ['user_profile'],
+                                                          // payment_required: user[
+                                                          //     index][
+                                                          // 'is_payment_required'] ,
+                                                        )));
                                             // setState(() {
                                             //   selectedIndexList = 0;
                                             //   selectedIndexList1 = 1;
@@ -651,8 +669,6 @@ DateTime _currenttime = DateTime.now();
                                       // ),
                                     ],
                                   ));
-
-                             
                             })),
                   ],
                 )),

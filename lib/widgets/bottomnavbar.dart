@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/screens/chatlistscreen.dart';
-import 'package:newagileapp/categories.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
-import 'package:newagileapp/screens/login.dart';
-import 'package:newagileapp/homescreen.dart';
-import 'package:newagileapp/widgets/Alertbox.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/screens/chatlistscreen.dart';
+import 'package:doctoragileapp/categories.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/screens/login.dart';
+import 'package:doctoragileapp/homescreen.dart';
+import 'package:doctoragileapp/widgets/Alertbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../api.dart';
@@ -24,6 +24,7 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 }
+
 //    gethomebutton(BuildContext context){
 //   double unitHeightValue = MediaQuery.of(context).size.height * 0.01;
 //  double multiplier = 2;
@@ -83,63 +84,58 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
   bool _eventScreen;
   @override
   Widget build(BuildContext context) {
-    return 
-    //SingleChildScrollView(scrollDirection: Axis.horizontal,child:
-     BottomAppBar(
-        child: new Container(
-          // width: MediaQuery.of(context).size.width * 140/100,
+    return
+        //SingleChildScrollView(scrollDirection: Axis.horizontal,child:
+        BottomAppBar(
+            child: new Container(
+      // width: MediaQuery.of(context).size.width * 140/100,
       decoration: BoxDecoration(
-        border: Border.all(color: buttonColor ),
+        border: Border.all(color: buttonColor),
         gradient: LinearGradient(
           begin: Alignment.topRight,
-       
-          colors: [
-          buttonColor,
-          buttonColor
-                   ],
+          colors: [buttonColor, buttonColor],
         ),
       ),
       height: 80,
-      
+
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
-  width: 75,
-  child:
-          RaisedButton(
-            color: buttonColor,
-            onPressed: () async {
-              SharedPreferences preferences =
-                  await SharedPreferences.getInstance();
-              _homeScreen = preferences.getBool("HomePage");
-              if (_homeScreen != true) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Upcomingappointment()));
-              } else {
-                return;
-              }
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                //  SvgPicture.asset('assets/homeicon.svg',),
-                Icon(
-                  Icons.home_outlined,
-                  color: iconColor,
-                  size: 28.0,
+              width: 75,
+              child: RaisedButton(
+                color: buttonColor,
+                onPressed: () async {
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  _homeScreen = preferences.getBool("HomePage");
+                  if (_homeScreen != true) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Upcomingappointment()));
+                  } else {
+                    return;
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    //  SvgPicture.asset('assets/homeicon.svg',),
+                    Icon(
+                      Icons.home_outlined,
+                      color: iconColor,
+                      size: 28.0,
+                    ),
+                    //  gethomebutton(context)
+                    Text(
+                      "HOME",
+                      style: TextStyle(color: buttonTextColor, fontSize: 12),
+                    ),
+                  ],
                 ),
-               //  gethomebutton(context)
-                Text(
-                  "HOME",
-                  style: TextStyle(color: buttonTextColor,fontSize: 12),
-                ),
-              ],
-            ),
-            )  ),
+              )),
           //
           RaisedButton(
             color: buttonColor,
@@ -161,11 +157,12 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
                   size: 25.0,
                   color: iconColor,
                 ),
-               //   getcalendarbutton(context)
+                //   getcalendarbutton(context)
                 //Image.asset('assets/Appointment.png'),
 
                 // SvgPicture.asset('assets/appointment.svg'),
-             Text("CALENDAR", style: TextStyle(color: buttonTextColor,fontSize: 12)),
+                Text("CALENDAR",
+                    style: TextStyle(color: buttonTextColor, fontSize: 12)),
               ],
             ),
           ),
@@ -186,43 +183,42 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset('assets/Triage.png'),
-               // getservicebutton(context)
+                // getservicebutton(context)
                 // SvgPicture.asset('assets/service.svg'),
-              Text("SERVICES", style: TextStyle(color: buttonTextColor,fontSize: 12)),
+                Text("SERVICES",
+                    style: TextStyle(color: buttonTextColor, fontSize: 12)),
               ],
             ),
           ),
-Container(
-  width: 70,
-  child:
-
-          RaisedButton(
-            color: buttonColor,
-            onPressed: () async {
-              SharedPreferences preferences =
-                  await SharedPreferences.getInstance();
-              _chatScreen = preferences.getBool("ChatPage");
-              if (_chatScreen != true) {
-                _setdisclaimar("chat");
-              } else {
-                return;
-              }
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/Chat.png'),
-                //getchatbutton(context)
-                // SvgPicture.asset('assets/chat.svg'),
-              Text("CHAT", style: TextStyle(color:buttonTextColor,fontSize: 12)),
-              ],
-            ),
-   )   )
+          Container(
+              width: 70,
+              child: RaisedButton(
+                color: buttonColor,
+                onPressed: () async {
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  _chatScreen = preferences.getBool("ChatPage");
+                  if (_chatScreen != true) {
+                    _setdisclaimar("chat");
+                  } else {
+                    return;
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset('assets/Chat.png'),
+                    //getchatbutton(context)
+                    // SvgPicture.asset('assets/chat.svg'),
+                    Text("CHAT",
+                        style: TextStyle(color: buttonTextColor, fontSize: 12)),
+                  ],
+                ),
+              ))
         ],
       ),
-    // )
-    )
-    );
+      // )
+    ));
   }
 
   DateTime dateTime = DateTime.now();

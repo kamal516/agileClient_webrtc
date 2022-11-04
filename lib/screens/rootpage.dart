@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newagileapp/screens/login.dart';
+import 'package:doctoragileapp/screens/login.dart';
 
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Rootpage extends StatefulWidget {

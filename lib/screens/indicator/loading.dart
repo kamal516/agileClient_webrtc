@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:newagileapp/screens/indicator/ballpulse.dart';
+import 'package:doctoragileapp/screens/indicator/ballpulse.dart';
 
-import 'package:newagileapp/screens/indicator/indicator.dart';
+import 'package:doctoragileapp/screens/indicator/indicator.dart';
 
 class Loading extends StatefulWidget {
   Indicator indicator;
   double size;
   Color color;
 
-  Loading({this.indicator,  this.size = 50.0, this.color = Colors.white}) {
+  Loading({this.indicator, this.size = 50.0, this.color = Colors.white}) {
     if (indicator == null) {
       indicator = BallPulseIndicator();
     } else {

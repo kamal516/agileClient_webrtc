@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter_zoom_plugin/zoom_view.dart';
 import 'package:flutter_zoom_plugin/zoom_options.dart';
 import 'package:flutter/material.dart';
-import 'package:newagileapp/screens/chatlist.dart';
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/screens/chatlist.dart';
+import 'package:doctoragileapp/homescreen.dart';
 
 class MeetingWidget extends StatelessWidget {
   ZoomOptions zoomOptions;
@@ -15,7 +15,7 @@ class MeetingWidget extends StatelessWidget {
   MeetingWidget({Key key, meetingId, meetingPassword, displayname})
       : super(key: key) {
     this.zoomOptions = new ZoomOptions(
-      domain: "zoom.us",    
+      domain: "zoom.us",
       appKey: "M3Nk5dW9BTLsVGDp792rlFoDOe9eusKg3OOW",
       appSecret: "MDz0Wzf2QJrfzNXTRsiU9b03i8eEkmRaYpQi",
     );
@@ -39,8 +39,6 @@ class MeetingWidget extends StatelessWidget {
     if (Platform.isAndroid)
       result = status == "MEETING_STATUS_DISCONNECTING" ||
           status == "MEETING_STATUS_FAILED";
-
-
     else
       result = status == "MEETING_STATUS_IDLE";
     return result;
@@ -50,51 +48,41 @@ class MeetingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use the Todo to create the UI.
     return ZoomView(onViewCreated: (controller) {
+      print("Created the view");
+      controller.initZoom(this.zoomOptions).then((results) {
+        print("initialised");
+        print(results);
+        if (results[0] == 0) {
+          controller.zoomStatusEvents.listen((status) {
+            print("Meeting Status Stream: " + status[0] + " - " + status[1]);
+            if (_isMeetingEnded(status[0])) {
+              // Navigator.of(context).pop();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Upcomingappointment()),
+                  (Route<dynamic> route) => false);
+              timer?.cancel();
+            }
+          });
 
-            print("Created the view");
-            controller.initZoom(this.zoomOptions).then((results) {
-              print("initialised");
-              print(results);
-              if (results[0] == 0) {
-                controller.zoomStatusEvents.listen((status) {
-                  print("Meeting Status Stream: " +
-                      status[0] +
-                      " - " +
-                      status[1]);
-                  if (_isMeetingEnded(status[0])) {
-                    // Navigator.of(context).pop();
-                     Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      Upcomingappointment()),
-              (Route<dynamic> route) => false);
-                    timer?.cancel();
-                  }
-                });
+          print("listen on event channel");
 
-                print("listen on event channel");
-
-                controller
-                    .joinMeeting(this.meetingOptions)
-                    .then((joinMeetingResult) {
-                  timer = Timer.periodic(new Duration(seconds: 2), (timer) {
-                    controller
-                        .meetingStatus(this.meetingOptions.meetingId)
-                        .then((status) {
-                      print("Meeting Status Polling: " +
-                          status[0] +
-                          " - " +
-                          status[1]);
-                    });
-                  });
-                });
-              }
-
-            }).catchError((error) {
-              print("Error");
-              print(error);
+          controller.joinMeeting(this.meetingOptions).then((joinMeetingResult) {
+            timer = Timer.periodic(new Duration(seconds: 2), (timer) {
+              controller
+                  .meetingStatus(this.meetingOptions.meetingId)
+                  .then((status) {
+                print(
+                    "Meeting Status Polling: " + status[0] + " - " + status[1]);
+              });
             });
           });
+        }
+      }).catchError((error) {
+        print("Error");
+        print(error);
+      });
+    });
     // Scaffold(
     //   // appBar: AppBar(
     //   //   centerTitle: true,

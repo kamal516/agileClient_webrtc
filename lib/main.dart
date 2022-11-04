@@ -1,52 +1,54 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:newagileapp/applisignin/apple_available.dart';
-import 'package:newagileapp/applisignin/authservice.dart';
-import 'package:newagileapp/applisignin/signin.dart';
-import 'package:newagileapp/dd.dart';
+import 'package:doctoragileapp/applisignin/apple_available.dart';
+import 'package:doctoragileapp/applisignin/authservice.dart';
+import 'package:doctoragileapp/applisignin/signin.dart';
+import 'package:doctoragileapp/dd.dart';
 
-
-import 'package:newagileapp/screens/splashscreen.dart';
-import 'package:newagileapp/screens/webview.dart';
+import 'package:doctoragileapp/screens/splashscreen.dart';
+import 'package:doctoragileapp/screens/webview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-class MyHttpOverrides extends HttpOverrides{
+
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context){
+  HttpClient createHttpClient(SecurityContext context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
-void main() async{
-   HttpOverrides.global = new MyHttpOverrides();
-     WidgetsFlutterBinding.ensureInitialized();
+
+void main() async {
+  HttpOverrides.global = new MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
- // final appleSignInAvailable = await AppleSignInAvailable.check();
- //  runApp(Provider<AppleSignInAvailable>.value(
- //    value: appleSignInAvailable,
- //    child: MyApp(),
- //  ));
- runApp(MyApp());
+  // final appleSignInAvailable = await AppleSignInAvailable.check();
+  //  runApp(Provider<AppleSignInAvailable>.value(
+  //    value: appleSignInAvailable,
+  //    child: MyApp(),
+  //  ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      // Provider<AuthService>(
-      // create: (_) => AuthService(),
-      // child:
-      MaterialApp(
-        title: 'Apple Sign In with Firebase',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-        ),
-        home: SplashScreen()
-        //SignInPage(),
-      // ),
-    );
+        // Provider<AuthService>(
+        // create: (_) => AuthService(),
+        // child:
+        MaterialApp(
+            title: 'Apple Sign In with Firebase',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.indigo,
+            ),
+            home: SplashScreen()
+            //SignInPage(),
+            // ),
+            );
 //     MaterialApp(
 //       debugShowCheckedModeBanner: false,
 //         title: 'Flutter Demo',
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
 //           primarySwatch: Colors.blue,
 //           visualDensity: VisualDensity.adaptivePlatformDensity,
 //         ),
-//         home: 
+//         home:
 // SplashScreen()
 //  );
   }

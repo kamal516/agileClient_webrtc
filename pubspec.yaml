@@ -1,8 +1,8 @@
-name: newagileapp
+name: doctoragileapp
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
+# pub.dev using `pub publish`. This is preferred for private packages.newagileapp
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
@@ -67,6 +67,10 @@ dependencies:
     git:
       url: git://github.com/decodedhealth/flutter_zoom_plugin.git
       ref: master
+  flutter_webrtc:  ^0.5.9
+  firebase_core: ^0.5.0+1
+  cloud_firestore: 
+  cloud_firestore_web: 
 dev_dependencies:
   flutter_test:
     sdk: flutter

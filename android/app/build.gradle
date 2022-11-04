@@ -50,7 +50,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.lacimasoftware.agilemedapplicationtwo"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
@@ -72,8 +72,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
    }
    buildTypes {
      release {
-         shrinkResources false
-         minifyEnabled false
+        //  shrinkResources false
+        //  minifyEnabled false
          signingConfig signingConfigs.debug
        }
    }

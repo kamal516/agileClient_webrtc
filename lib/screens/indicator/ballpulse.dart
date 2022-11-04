@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-import 'package:newagileapp/screens/indicator/indicator.dart';
+import 'package:doctoragileapp/screens/indicator/indicator.dart';
 
 class BallPulseIndicator extends Indicator {
   //scale x ,y

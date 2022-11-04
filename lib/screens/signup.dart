@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/categories.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/categories.dart';
 
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SigninPage extends StatefulWidget {

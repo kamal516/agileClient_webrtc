@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/screens/chatlistscreen.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/screens/chatlistscreen.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../api.dart';
 import '../homescreen.dart';
@@ -40,7 +40,8 @@ class _ShowAlertboxState extends State<ShowAlertbox> {
     super.initState();
     _localuserid();
   }
-DateTime dateTime = DateTime.now();
+
+  DateTime dateTime = DateTime.now();
   int selectdont = 0;
   int selectagree;
   @override
@@ -81,23 +82,30 @@ DateTime dateTime = DateTime.now();
                   ],
                 ),
               )),
-              Row(mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                Checkbox(value: _checked, onChanged: (bool value) {
-                setState(() {
-                    _checked = value;
-                });}),
-                // SizedBox(width: 2,),
-                Text("Do not show this type of \ndisclaimer again",style: TextStyle(fontSize: 12),)
-              ],)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Checkbox(
+                  value: _checked,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _checked = value;
+                    });
+                  }),
+              // SizedBox(width: 2,),
+              Text(
+                "Do not show this type of \ndisclaimer again",
+                style: TextStyle(fontSize: 12),
+              )
+            ],
+          )
         ],
       ),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           RaisedButton(
-              color: 
-              buttonColor,
+              color: buttonColor,
               child: Text(
                 'I AGREE',
                 style: TextStyle(color: buttonTextColor),
@@ -112,22 +120,20 @@ DateTime dateTime = DateTime.now();
                 } else {
                   _diclaimeruser("OK");
                 }
-            await http.post(apipath + '/doNotShowDisclaimer', body: {
-
-            "user_id": _userid,
-            "show_disclaimer":_checked.toString(),
-            'timezone':dateTime.timeZoneName
-            // "appointment_date": widget.appointment_datetime.toString(),
-            // "client_name": name.text,
-            // "client_address": address.text,
-          
-          }).then((vl) async {
-          print(vl);
-          });
+                await http.post(apipath + '/doNotShowDisclaimer', body: {
+                  "user_id": _userid,
+                  "show_disclaimer": _checked.toString(),
+                  'timezone': dateTime.timeZoneName
+                  // "appointment_date": widget.appointment_datetime.toString(),
+                  // "client_name": name.text,
+                  // "client_address": address.text,
+                }).then((vl) async {
+                  print(vl);
+                });
                 //  Navigator.pushReplacement(context, MaterialPageRoute(builder:  (context)=>Chatscreen()));
               }),
           RaisedButton(
-              color:disclaimeridontButtonColor,
+              color: disclaimeridontButtonColor,
               child: Text(
                 'I DON' "T" '',
                 style: TextStyle(color: buttonTextColor),
@@ -153,14 +159,13 @@ DateTime dateTime = DateTime.now();
   String _userid;
   String _username;
   String _localtoken;
-  bool _checked =false;
+  bool _checked = false;
   _localuserid() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       _userid = preferences.getString("id");
       _username = preferences.getString("name");
       _localtoken = preferences.getString("token");
-      
     });
   }
 
@@ -173,7 +178,7 @@ DateTime dateTime = DateTime.now();
       "comment": widget.getdisclaimer[0]['title'],
       "action": action,
       "type": widget.getdisclaimer[0]['disclaimer_position'],
-      'timezone':dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((result) async {
       print(result.body);
       setState(() {

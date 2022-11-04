@@ -10,20 +10,18 @@ import 'dart:convert' show json;
 import 'package:google_sign_in/google_sign_in.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter/material.dart';
-import 'package:newagileapp/dgoogle.dart';
-import 'package:newagileapp/dloginafter.dart';
-
+import 'package:doctoragileapp/dgoogle.dart';
+import 'package:doctoragileapp/dloginafter.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
-  clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+  clientId:
+      '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
   scopes: <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
   ],
 );
-
-
 
 class SignInDemo extends StatefulWidget {
   @override
@@ -101,17 +99,17 @@ class SignInDemoState extends State<SignInDemo> {
       print(error);
     }
   }
-Future SignIn() async {
-  
-  final username =    await GoogleSignInApi.login();
-  if(username==null){
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('sign in failed'),));
-  }else{
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>testLogingoogle(name:username)));
-  }
-     
+
+  Future SignIn() async {
+    final username = await GoogleSignInApi.login();
+    if (username == null) {
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('sign in failed'),));
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => testLogingoogle(name: username)));
     }
-  
+  }
+
   Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   Widget _buildBody() {
@@ -145,12 +143,12 @@ Future SignIn() async {
         children: <Widget>[
           const Text("You are not currently signed in."),
           ElevatedButton(
-            child: const Text('SIGN IN'),
-            onPressed: (){
-              SignIn();
-            }
-            //_handleSignIn,
-          ),
+              child: const Text('SIGN IN'),
+              onPressed: () {
+                SignIn();
+              }
+              //_handleSignIn,
+              ),
         ],
       );
     }

@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:newagileapp/triage/triagedescp.dart';
+import 'package:doctoragileapp/triage/triagedescp.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 
 class Categoryset extends StatefulWidget {
   @override
@@ -29,7 +29,7 @@ class _TestcatState extends State<Categoryset> {
     return user['category'];
   }
 
-   _image(dynamic user) {
+  _image(dynamic user) {
     return user['icon'];
   }
 
@@ -45,20 +45,22 @@ class _TestcatState extends State<Categoryset> {
     press = false;
     _getScreen();
   }
-  bool _homeScreen=false;
-  bool _chatScreen=false;
+
+  bool _homeScreen = false;
+  bool _chatScreen = false;
   bool _serviceScreen;
-  bool _eventScreen=false;
-  _getScreen()async{
- SharedPreferences preferences = await SharedPreferences.getInstance();
- setState(() {
-   _serviceScreen=true;
- });
-  preferences.setBool("HomePage", _homeScreen);
+  bool _eventScreen = false;
+  _getScreen() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      _serviceScreen = true;
+    });
+    preferences.setBool("HomePage", _homeScreen);
     preferences.setBool("ChatPage", _chatScreen);
-      preferences.setBool("ServicePage", _serviceScreen);
-        preferences.setBool("EventPage", _eventScreen);
+    preferences.setBool("ServicePage", _serviceScreen);
+    preferences.setBool("EventPage", _eventScreen);
   }
+
   final String apiUrl = apipath + '/triage_test';
 
   Future<List<dynamic>> fetchUsers() async {
@@ -77,9 +79,9 @@ class _TestcatState extends State<Categoryset> {
             decoration: new BoxDecoration(
                 // color: Colors.white,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                )),
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+            )),
             padding: EdgeInsets.only(
               top: 0,
             ),
@@ -99,9 +101,15 @@ class _TestcatState extends State<Categoryset> {
                               topLeft: const Radius.circular(40.0),
                               topRight: const Radius.circular(40.0),
                             )),
-                        child: Row(
-                          children: <Widget>[
-                   IconButton(icon: Icon(Icons.arrow_back,color: buttonTextColor,), onPressed: (){Navigator.of(context);}),
+                        child: Row(children: <Widget>[
+                          IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: buttonTextColor,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context);
+                              }),
 //                          if(_token!=null){
 //  Navigator.pushReplacement(context,
 //                     MaterialPageRoute(builder: (context) => Upcomingappointment()));
@@ -113,16 +121,15 @@ class _TestcatState extends State<Categoryset> {
                           // SizedBox(
                           //   width: 150,
                           // ),
-                       Center(
-                         child:
-                        Text(
+                          Center(
+                              child: Text(
                             'SERVICES',
-                            style: TextStyle(color:buttonTextColor, fontSize: 19),
-                        ) ),
+                            style:
+                                TextStyle(color: buttonTextColor, fontSize: 19),
+                          )),
                           // SizedBox(
                           //   width: 20,
                           // ),
-                       
                         ]),
                       ),
                     ]),
@@ -141,12 +148,9 @@ class _TestcatState extends State<Categoryset> {
                             print((snapshot.data[0]));
                             return ListView.builder(
                                 itemCount: snapshot.data.length,
-
-                               
                                 shrinkWrap: true,
                                 physics: ClampingScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
-                                
                                   return Card(
                                       color: greyContainer,
                                       child: Row(children: <Widget>[
@@ -168,7 +172,6 @@ class _TestcatState extends State<Categoryset> {
                                                             image: snapshot
                                                                     .data[index]
                                                                 ['icon'])));
-                                          
                                           },
                                           child: Container(
                                             // height: 110,
@@ -181,13 +184,13 @@ class _TestcatState extends State<Categoryset> {
                                             padding: EdgeInsets.only(
                                                 top: 30, bottom: 25),
                                             child:
-                                            
-                                      //       CachedNetworkImage(
-                                          // imageUrl:
-                                      //  SvgPicture.network(_image(snapshot.data[index])),
-                                      //       ),
-                                          SvgPicture.network(_image(snapshot.data[index])),
-                                          
+
+                                                //       CachedNetworkImage(
+                                                // imageUrl:
+                                                //  SvgPicture.network(_image(snapshot.data[index])),
+                                                //       ),
+                                                SvgPicture.network(_image(
+                                                    snapshot.data[index])),
                                           ),
                                         ),
                                         Expanded(
@@ -215,11 +218,12 @@ class _TestcatState extends State<Categoryset> {
                                                                   ['icon'])));
                                                 },
                                                 child: ListTile(
-                                                 
                                                     title: Text(_catg(
                                                         snapshot.data[index])),
                                                     subtitle: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: <Widget>[
                                                         Text(
                                                             _description(
@@ -246,7 +250,6 @@ class _TestcatState extends State<Categoryset> {
                                                                               'description'],
                                                                           image:
                                                                               snapshot.data[index]['icon'])));
-                                                            
                                                             },
                                                             child: Row(
                                                               mainAxisAlignment:
@@ -274,8 +277,7 @@ class _TestcatState extends State<Categoryset> {
                                                               ],
                                                             ))
                                                       ],
-                                                    )
-  ),
+                                                    )),
                                               )
                                             ],
                                           ),

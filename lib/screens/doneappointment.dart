@@ -1,12 +1,11 @@
-
 import 'dart:async';
 import 'dart:math';
 import 'package:angles/angles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/color.dart';
 
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/homescreen.dart';
 
 class Doneappointment extends StatefulWidget {
   final double size;
@@ -59,25 +58,25 @@ class _TestcatState extends State<Doneappointment>
     });
     _controller.forward();
     setState(() {
-      settime =  '2020-07-20'+'T'+ widget.appointmenttime;
+      settime = '2020-07-20' + 'T' + widget.appointmenttime;
     });
-  print(settime);
+    print(settime);
   }
+
   Timer _timer;
- void startTimer() {
- 
-  _timer = new Timer.periodic(new Duration(seconds: 2), (time) {
-          Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            Upcomingappointment()),
-                                    (Route<dynamic> route) => false);
+  void startTimer() {
+    _timer = new Timer.periodic(new Duration(seconds: 2), (time) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (BuildContext context) => Upcomingappointment()),
+          (Route<dynamic> route) => false);
     });
   }
+
   int modifyList;
   int donelist;
 
- String timeStamp24HR = "2020-07-20T18:15:12";
+  String timeStamp24HR = "2020-07-20T18:15:12";
   List<String> lst = ['MODIFY', 'DONE'];
   int selectedIndex = 0;
   void changeIndex(int index) {
@@ -96,12 +95,11 @@ class _TestcatState extends State<Doneappointment>
             decoration: new BoxDecoration(
                 // color: kPrimaryDarkColor,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                  bottomLeft: const Radius.circular(40.0),
-                  bottomRight: const Radius.circular(40.0),
-                )),
-        
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+              bottomLeft: const Radius.circular(40.0),
+              bottomRight: const Radius.circular(40.0),
+            )),
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +149,7 @@ class _TestcatState extends State<Doneappointment>
                         // ),
                         // Text(
                         //   '',
-                       
+
                         //   style: TextStyle(
                         //       fontSize: 17,
                         //       fontWeight: FontWeight.bold,
@@ -161,28 +159,31 @@ class _TestcatState extends State<Doneappointment>
                           height: 10,
                         ),
                         Text(
-                    
                           widget.appointmentdate == null
                               ? ""
                               : DateFormat(' EEEE, d MMMM y').format(
                                   DateTime.parse(widget.appointmentdate)),
-
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color:buttonTextColor),
+                              color: buttonTextColor),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                             Text(
-                   // widget.appointmenttime,
-                       widget.appointmenttime==null?"": 
-                        // DateFormat('hh:mm a').format(DateTime.parse(widget.appointmenttime)),
-                       //widget.appointmenttime,
-                      DateFormat.jm().format(DateTime.parse(settime))   , 
-                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: buttonTextColor),
-                          ),
+                        Text(
+                          // widget.appointmenttime,
+                          widget.appointmenttime == null
+                              ? ""
+                              :
+                              // DateFormat('hh:mm a').format(DateTime.parse(widget.appointmenttime)),
+                              //widget.appointmenttime,
+                              DateFormat.jm().format(DateTime.parse(settime)),
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: buttonTextColor),
+                        ),
                       ]),
                   SizedBox(
                     height: 30,
@@ -191,12 +192,12 @@ class _TestcatState extends State<Doneappointment>
                   //     mainAxisAlignment: MainAxisAlignment.center,
                   //     crossAxisAlignment: CrossAxisAlignment.stretch,
                   //     children: <Widget>[
-                      
+
                   //       Container(
                   //           padding: EdgeInsets.only(left: 10, right: 10),
                   //           child: RaisedButton(
                   //             onPressed: () {
-                              
+
                   //               Navigator.of(context).pushAndRemoveUntil(
                   //                   MaterialPageRoute(
                   //                       builder: (BuildContext context) =>
@@ -207,7 +208,7 @@ class _TestcatState extends State<Doneappointment>
                   //                 borderRadius: BorderRadius.circular(10.0)),
                   //             color:
                   //                 modifyList == 0 ? Colors.grey : Colors.white,
-                           
+
                   //             child: Text(
                   //               'DONE',
                   //               style: TextStyle(color: blackTextColor),
@@ -246,7 +247,6 @@ class CheckPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-   
     var rect = Offset(0, 0) & size;
     _paint.color = Colors.white;
 
@@ -266,8 +266,6 @@ class CheckPainter extends CustomPainter {
         Angle.fromDegrees(360).radians, false, _paint);
     canvas.drawLine(Offset(line1x1, line1y1), Offset(line1x2, line1y2), _paint);
     canvas.drawLine(Offset(line2x1, line2y1), Offset(line1x2, line1y2), _paint);
-
- 
 
     double circleValue, checkValue;
     if (value < .5) {
@@ -327,8 +325,6 @@ class CheckPainter extends CustomPainter {
       canvas.drawLine(Offset(auxLine1x1, auxLine1y1),
           Offset(auxLine1x2, auxLine1y2), _paint);
     }
-
-
 
     double auxLine2x1 = (line2x1 - line1x2) * line2Value;
     double auxLine2y1 =

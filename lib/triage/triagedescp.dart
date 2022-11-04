@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/screens/login.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
-import 'package:newagileapp/triage/doctorlisttriage.dart';
-import 'package:newagileapp/triage/questiontriage.dart';
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/screens/login.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/triage/doctorlisttriage.dart';
+import 'package:doctoragileapp/triage/questiontriage.dart';
+import 'package:doctoragileapp/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 
 class Triagedescription extends StatefulWidget {
   final int id;
@@ -76,16 +76,17 @@ class _TestcatState extends State<Triagedescription> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavBar(),
-      body:SingleChildScrollView(child: Container(
+      body: SingleChildScrollView(
+          child: Container(
         //padding: EdgeInsets.only(top: 15),
         // color: kPrimaryDarkColor,
         child: new Container(
             decoration: new BoxDecoration(
                 // color: kPrimaryLightColour,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                )),
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+            )),
             padding: EdgeInsets.only(
               top: 0,
             ),
@@ -202,7 +203,7 @@ class _TestcatState extends State<Triagedescription> {
                     ))
               ],
             )),
-        )  ),
+      )),
     );
   }
 }

@@ -3,14 +3,18 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:doctoragileapp/testvideo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/messagelist.dart';
-import 'package:newagileapp/screens/webviewvideo.dart';
-import 'package:newagileapp/widgets/ZoomMeeting.dart';
+import 'package:doctoragileapp/messagelist.dart';
+import 'package:doctoragileapp/screens/webviewvideo.dart';
+import 'package:doctoragileapp/webrtc_videoCall/signaling.dart';
+import 'package:doctoragileapp/webrtc_videoCall/video_page.dart';
+import 'package:doctoragileapp/widgets/ZoomMeeting.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +36,15 @@ class _TestcatState extends State<Chatlist>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
+    _localRenderer.initialize();
+    _remoteRenderer.initialize();
+    // requestPermissions();
+    // startTimer();
+    signaling.onAddRemoteStream = ((stream) {
+      _remoteRenderer.srcObject = stream;
+      setState(() {});
+    });
+    signaling.openUserMedia(_localRenderer, _remoteRenderer);
     super.initState();
 
     getid();
@@ -47,6 +60,13 @@ class _TestcatState extends State<Chatlist>
     super.deactivate();
   }
 
+  Signaling signaling = Signaling();
+  RTCVideoRenderer _localRenderer = RTCVideoRenderer();
+  RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
+  String roomId;
+  TextEditingController textEditingController = TextEditingController(text: '');
+  bool recording = false;
+  int _time = 0;
 //        _scrollController.animateTo(
 // _scrollController.position.maxScrollExtent,
 // duration: const Duration(milliseconds: 1),
@@ -91,10 +111,10 @@ class _TestcatState extends State<Chatlist>
     var dbClient = await db;
 
     var test = await dbClient.rawQuery(
-    //   "Select * from $TABLE  where ($From=$_localid and $To='${widget.holderid}')"+
-    // " or ($From='${widget.holderid}'  and $To=$_localid)  and"+
-    //         "(messagelist not like '**meeting%' or "+
-    //        " (messagelist  like '**meeting%' and (messagedate >= datetime('now','-20 minutes')))) order by messageid desc Limit 15");
+        //   "Select * from $TABLE  where ($From=$_localid and $To='${widget.holderid}')"+
+        // " or ($From='${widget.holderid}'  and $To=$_localid)  and"+
+        //         "(messagelist not like '**meeting%' or "+
+        //        " (messagelist  like '**meeting%' and (messagedate >= datetime('now','-20 minutes')))) order by messageid desc Limit 15");
         "Select * from $TABLE  where ($From=$_localid and $To='${widget.holderid}') or ($From='${widget.holderid}'  and $To=$_localid) order by messageid desc Limit 15");
     print(test);
     setState(() {
@@ -144,10 +164,10 @@ class _TestcatState extends State<Chatlist>
   int donelist;
 
   TextEditingController message = new TextEditingController();
-DateTime dateTime = DateTime.now();
+  DateTime dateTime = DateTime.now();
   Future<List> _getmessage() async {
     var dbClient = await db;
- 
+
     final response = await http.post(apipath + '/getAllMessage', body: {
       "from_user_id": _localid,
       "to_user_id": widget.holderid,
@@ -327,7 +347,9 @@ DateTime dateTime = DateTime.now();
                           ),
                           child: _getMeetingCred[0]
                                   .toString()
-                                  .startsWith("**meeting")
+                                  .startsWith("start"
+                                      //"**meeting"
+                                      )
                               ? IconButton(
                                   tooltip: "zoom meeting",
                                   icon: Icon(
@@ -335,30 +357,67 @@ DateTime dateTime = DateTime.now();
                                     color: Colors.blue,
                                   ),
                                   onPressed: () {
+                                    print(_getMeetingCred[0]
+                                        .replaceAll("start", ""));
+                                    // print(
+                                    //     messagelist[index]['messagelist'].last);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => TestVideo(
+                                                  videoToken: _getMeetingCred[0]
+                                                      .replaceAll("start", ""),
+                                                )
+                                            //  VideoPage(
+                                            //       videoToken: _getMeetingCred[0]
+                                            //           .replaceAll("start", ""),
+                                            //       localvideo: _localRenderer,
+                                            //       remotevideo: _remoteRenderer,
+                                            //     )
+                                            ));
+                                    // signaling.joinRoom(
+                                    //   textEditingController.text,
+                                    //   _remoteRenderer,
+                                    // );
+                                    // if (DateTime.parse(_time).isBefore(
+                                    //     DateTime.parse(_currentDate))) {
+                                    //   Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) => VideoPage(
+                                    //                 videoToken:
+                                    //                     _getMeetingCred[0]
+                                    //                         .replaceAll(
+                                    //                             "start", ""),
+                                    //                 localvideo: _localRenderer,
+                                    //                 remotevideo:
+                                    //                     _remoteRenderer,
+                                    //               )));
+                                    // }
                                     // setState(() {
                                     //   message.text=_getMeetingCred[1].toString();
                                     // });
 
-                                    if (DateTime.parse(_time).isBefore(
-                                        DateTime.parse(_currentDate))) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return MeetingWidget(
-                                                displayname: _loginedusername,
-                                                meetingId: _getMeetingCred[1]
-                                                .toString(),
-                                                meetingPassword:
-                                                _getMeetingCred[3]
-                                                .toString()
-                                             );
-                                          },
-                                        ),
-                                      );
-                                    } 
-                                    else {
-                                      return;
-                                    }
+                                    // if (DateTime.parse(_time).isBefore(
+                                    //     DateTime.parse(_currentDate))) {
+                                    //   Navigator.of(context).push(
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) {
+                                    //         return MeetingWidget(
+                                    //             displayname: _loginedusername,
+                                    //             meetingId: _getMeetingCred[1]
+                                    //             .toString(),
+                                    //             meetingPassword:
+                                    //             _getMeetingCred[3]
+                                    //             .toString()
+                                    //          );
+                                    //       },
+                                    //     ),
+                                    //   );
+                                    // }
+                                    // else {
+                                    //   return;
+                                    // }
                                   })
                               // Text(
                               //   messagelist[index]['messagelist'],
@@ -368,10 +427,12 @@ DateTime dateTime = DateTime.now();
                               // )
                               : Text(
                                   messagelist[index]['messagelist'],
-                                  style:
-                                    Theme.of(context).textTheme.bodyText2.apply(
-                                    color: Colors.black87,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .apply(
+                                        color: Colors.black87,
+                                      ),
                                 ),
                         ),
                         SizedBox(
@@ -478,11 +539,11 @@ DateTime dateTime = DateTime.now();
             decoration: new BoxDecoration(
                 // color: kPrimaryLightColour,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                  bottomLeft: const Radius.circular(1.0),
-                  bottomRight: const Radius.circular(1.0),
-                )),
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+              bottomLeft: const Radius.circular(1.0),
+              bottomRight: const Radius.circular(1.0),
+            )),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -497,21 +558,22 @@ DateTime dateTime = DateTime.now();
                           decoration: new BoxDecoration(
                               color: buttonColor,
                               borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(40.0),
-                              topRight: const Radius.circular(40.0),
+                                topLeft: const Radius.circular(40.0),
+                                topRight: const Radius.circular(40.0),
                               )),
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                               mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 // SizedBox(
                                 //   width: 100,
                                 // ),
-                             Center(child:Text(
+                                Center(
+                                    child: Text(
                                   widget.doctorname,
                                   style: TextStyle(
                                       color: buttonTextColor, fontSize: 19),
-                             )),
+                                )),
                                 // SizedBox(
                                 //   width: 100,
                                 // ),
@@ -519,13 +581,9 @@ DateTime dateTime = DateTime.now();
                         ),
                         chatdata(context),
                         _senderbuttton(context)
-                      ]
-                    ),
-                ]
-              )
-            ),
-          ),
-       )
-    );
+                      ]),
+                ])),
+      ),
+    ));
   }
 }

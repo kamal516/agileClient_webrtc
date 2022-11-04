@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:newagileapp/screens/indicator/loading.dart';
+import 'package:doctoragileapp/screens/indicator/loading.dart';
 
 abstract class Indicator {
   LoadingState context;

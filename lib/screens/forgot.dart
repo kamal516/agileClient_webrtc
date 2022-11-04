@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/categories.dart';
-import 'package:newagileapp/screens/rootpage.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/categories.dart';
+import 'package:doctoragileapp/screens/rootpage.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,53 +60,60 @@ class _LoginPageState extends State<ResetPassword> {
       _formtype = FormType.login;
     });
   }
-Future<List> sendresetpassword() async {
-  final response = await http.post(apipath + '/forgotPassword',
-  //  "http://192.168.1.6:3040/forgotPassword",
-  //  "https://agilemedapp-cn4rzuzz6a-el.a.run.app/createAppointment",
-   body: {
-      "email":useremail.text,
-    // "email": useremail.text,
-    // "description": _description.text,
-    // "phone_number1":_phone.text,
-    // "address1":_address.text,
-   
-   
-  }).then((value) {
-    print(value.body);
-     var data = jsonDecode(value.body);
-   if (data["data"] == "Recovery Email Sent") {
-      return     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        // title: Text('Not in stock'),
-        content: const Text('Recovery Email Sent Kindly \n Please Check',textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
-        actions: [
-          FlatButton(
-            child: Text('Ok'),
-            onPressed: () {
-              setState(() {
-                useremail.text="";
-              });
-              Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-              builder: (BuildContext context) => Rootpage()),
-              ( Route<dynamic> route) => false);
-            },
-          ),
-        ],
-      );
-    },
-  );
-         print("Something done");
-        } else if(data["message"]=="email is not in db"){
-       return   showDialog(
-        context: context,
+
+  Future<List> sendresetpassword() async {
+    final response = await http.post(apipath + '/forgotPassword',
+        //  "http://192.168.1.6:3040/forgotPassword",
+        //  "https://agilemedapp-cn4rzuzz6a-el.a.run.app/createAppointment",
+        body: {
+          "email": useremail.text,
+          // "email": useremail.text,
+          // "description": _description.text,
+          // "phone_number1":_phone.text,
+          // "address1":_address.text,
+        }).then((value) {
+      print(value.body);
+      var data = jsonDecode(value.body);
+      if (data["data"] == "Recovery Email Sent") {
+        return showDialog(
+          context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               // title: Text('Not in stock'),
-              content: const Text('Email Not Found',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.red),),
+              content: const Text(
+                'Recovery Email Sent Kindly \n Please Check',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              ),
+              actions: [
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    setState(() {
+                      useremail.text = "";
+                    });
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Rootpage()),
+                        (Route<dynamic> route) => false);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        print("Something done");
+      } else if (data["message"] == "email is not in db") {
+        return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              // title: Text('Not in stock'),
+              content: const Text(
+                'Email Not Found',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: Colors.red),
+              ),
               actions: [
                 FlatButton(
                   child: Text('Ok'),
@@ -117,16 +124,19 @@ Future<List> sendresetpassword() async {
               ],
             );
           },
-    );
-          print("email not found");
-        }
-        else{
-          return   showDialog(
-        context: context,
+        );
+        print("email not found");
+      } else {
+        return showDialog(
+          context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               // title: Text('Not in stock'),
-              content: const Text('something went wrong...!!',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.blue),),
+              content: const Text(
+                'something went wrong...!!',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: Colors.blue),
+              ),
               actions: [
                 FlatButton(
                   child: Text('Ok'),
@@ -137,12 +147,12 @@ Future<List> sendresetpassword() async {
               ],
             );
           },
-    );
-           print("something went wrong...!!");
-        }
-  });
-  
-}
+        );
+        print("something went wrong...!!");
+      }
+    });
+  }
+
   bool _login = false;
   @override
   Widget build(BuildContext context) {
@@ -206,7 +216,6 @@ Future<List> sendresetpassword() async {
             filled: true,
             fillColor: greyContainer,
             labelText: 'Email',
-          
             border: new OutlineInputBorder(
               borderRadius: new BorderRadius.circular(65.0),
             )),
@@ -222,7 +231,7 @@ Future<List> sendresetpassword() async {
       //       filled: true,
       //       fillColor: kPrimaryLightColour,
       //       labelText: 'New Password',
-     
+
       //       border: new OutlineInputBorder(
       //         borderRadius: new BorderRadius.circular(65.0),
       //       )),
@@ -235,21 +244,19 @@ Future<List> sendresetpassword() async {
 
   // Future<List> sendresetpassword() async {
   //   final response = await http.post(apipath + '/forgotPassword',
-      
+
   //       body: {
   //         "username": useremail.text,
-          
+
   //         "password": userpassword.text,
   //       });
   // }
 
   _loginset() async {
-    await http.post(apipath + '/login',
-   
-        body: {
-          'username': useremail.text,
-          'password': userpassword.text,
-        }).then((result) async {
+    await http.post(apipath + '/login', body: {
+      'username': useremail.text,
+      'password': userpassword.text,
+    }).then((result) async {
       print(result.body);
       var data = jsonDecode(result.body);
       if (data['error'] == 'User does not exist') {
@@ -260,7 +267,7 @@ Future<List> sendresetpassword() async {
         });
         var body = json.decode(result.body);
         SharedPreferences localStorage = await SharedPreferences.getInstance();
-     
+
         localStorage.setString('token', body['token']);
 
         Navigator.push(
@@ -284,9 +291,8 @@ Future<List> sendresetpassword() async {
             onPressed: () {
               sendresetpassword();
             }),
-       
       ];
-    } 
+    }
     // else {
     //   return [
     //     new RaisedButton(
@@ -296,10 +302,10 @@ Future<List> sendresetpassword() async {
     //             side: BorderSide(color: Colors.red)),
     //         child: new Text('Register'),
     //         onPressed: () {
-           
+
     //           _loginset();
     //         }),
-      
+
     //   ];
     // }
   }

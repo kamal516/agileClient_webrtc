@@ -4,12 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:newagileapp/screens/showappointment.dart';
-import 'package:newagileapp/homescreen.dart';
+import 'package:doctoragileapp/screens/showappointment.dart';
+import 'package:doctoragileapp/homescreen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,13 +60,13 @@ class _TestcatState extends State<Notificationlist>
   String messagedata;
   int modifyList;
   int donelist;
-DateTime dateTime = DateTime.now();
+  DateTime dateTime = DateTime.now();
   TextEditingController message = new TextEditingController();
 
   Future<List> _getmessage() async {
     final response = await http.post(apipath + '/getNotification', body: {
       "user_id": _localid,
- 'timezone': dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((result) async {
       print(result.body);
       setState(() {
@@ -80,13 +80,15 @@ DateTime dateTime = DateTime.now();
   _markmessage(int chat_notification_id) async {
     final response = await http.post(apipath + '/updateNotification', body: {
       "notification_id": chat_notification_id.toString(),
-       'timezone': dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((value) {});
   }
 
   _readall(BuildContext context) async {
-    final response = await http.post(apipath + '/updateallnotification',
-        body: {"user_id": _localid, 'timezone': dateTime.timeZoneName}).then((value) {
+    final response = await http.post(apipath + '/updateallnotification', body: {
+      "user_id": _localid,
+      'timezone': dateTime.timeZoneName
+    }).then((value) {
       fetchmeassagedata.clear();
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => Upcomingappointment()));
@@ -113,16 +115,14 @@ DateTime dateTime = DateTime.now();
             padding: EdgeInsets.only(
               top: 5,
             ),
-          
             child: new Container(
                 decoration: new BoxDecoration(
-                   
                     borderRadius: new BorderRadius.only(
-                      topLeft: const Radius.circular(40.0),
-                      topRight: const Radius.circular(40.0),
-                      bottomLeft: const Radius.circular(1.0),
-                      bottomRight: const Radius.circular(1.0),
-                    )),
+                  topLeft: const Radius.circular(40.0),
+                  topRight: const Radius.circular(40.0),
+                  bottomLeft: const Radius.circular(1.0),
+                  bottomRight: const Radius.circular(1.0),
+                )),
                 padding: EdgeInsets.only(
                   top: 0,
                 ),
@@ -138,7 +138,7 @@ DateTime dateTime = DateTime.now();
                             height: 73,
                             width: 40,
                             decoration: new BoxDecoration(
-                                color:buttonColor,
+                                color: buttonColor,
                                 borderRadius: new BorderRadius.only(
                                   topLeft: const Radius.circular(40.0),
                                   topRight: const Radius.circular(40.0),
@@ -155,11 +155,12 @@ DateTime dateTime = DateTime.now();
                               // SizedBox(
                               //   width: 80,
                               // ),
-                         Center(child:    Text(
+                              Center(
+                                  child: Text(
                                 'NOTIFICATIONS',
                                 style: TextStyle(
                                     color: buttonTextColor, fontSize: 16),
-                             ) ),
+                              )),
                             ]),
                           ),
                         ]),
@@ -169,7 +170,6 @@ DateTime dateTime = DateTime.now();
                             borderRadius: BorderRadius.circular(20)),
                         padding: EdgeInsets.only(top: 0),
                         child: Container(
-                          
                             height: 400,
                             padding: EdgeInsets.only(left: 10, right: 10),
                             child: ListView.builder(
@@ -215,8 +215,7 @@ DateTime dateTime = DateTime.now();
                                                     child: Text(
                                                       DateFormat(
                                                               '  d MMMM ,  hh:mm a')
-                                                          .format(DateTime.parse(
-                                                              fetchmeassagedata[
+                                                          .format(DateTime.parse(fetchmeassagedata[
                                                                               index]
                                                                           [
                                                                           'created_at'] ==
@@ -225,7 +224,8 @@ DateTime dateTime = DateTime.now();
                                                                   : fetchmeassagedata[
                                                                           index]
                                                                       [
-                                                                      'created_at']).toLocal()),
+                                                                      'created_at'])
+                                                              .toLocal()),
                                                       textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                           color: blackTextColor,

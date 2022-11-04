@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/doctorlist.dart';
-import 'package:newagileapp/screens/showappointment.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/doctorlist.dart';
+import 'package:doctoragileapp/screens/showappointment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 
 class Calendarscreen extends StatefulWidget {
   @override
@@ -38,20 +38,22 @@ class _HomePageState extends State<Calendarscreen> {
     gettoken();
     _getScreen();
   }
-bool _homeScreen=false;
-  bool _chatScreen=false;
-  bool _serviceScreen=false;
-  bool _eventScreen=false;
-  _getScreen()async{
- SharedPreferences preferences = await SharedPreferences.getInstance();
- setState(() {
-   _eventScreen=true;
- });
-  preferences.setBool("HomePage", _homeScreen);
+
+  bool _homeScreen = false;
+  bool _chatScreen = false;
+  bool _serviceScreen = false;
+  bool _eventScreen = false;
+  _getScreen() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      _eventScreen = true;
+    });
+    preferences.setBool("HomePage", _homeScreen);
     preferences.setBool("ChatPage", _chatScreen);
-      preferences.setBool("ServicePage", _serviceScreen);
-        preferences.setBool("EventPage", _eventScreen);
+    preferences.setBool("ServicePage", _serviceScreen);
+    preferences.setBool("EventPage", _eventScreen);
   }
+
   String _name(dynamic user) {
     return user['client_name'];
   }
@@ -83,27 +85,28 @@ bool _homeScreen=false;
   }
 
   String _userid;
-  DateTime currentdate =DateTime.now() ;
- 
-var calendarvalue=0;
+  DateTime currentdate = DateTime.now();
+
+  var calendarvalue = 0;
   List appointmentbydate = [];
   var data;
   Future<List> _dateappointment() async {
     final response = await http.post(apipath + '/getAppointment', body: {
       "date": DateFormat("yMd").format(_controller.selectedDay),
       "user_id": _userid,
-      'timezone':currentdate.timeZoneName
+      'timezone': currentdate.timeZoneName
     }).then((result) {
       if (result.body == '"No"') {
-        if( 
-           _controller.selectedDay.compareTo(currentdate)>0
- //  _controller.selectedDay.day >=  currentdate.day 
-          ){
-           return Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Doctorlist(
-               appointment_date: _controller.selectedDay,
-            )));
-        }else{
+        if (_controller.selectedDay.compareTo(currentdate) > 0
+            //  _controller.selectedDay.day >=  currentdate.day
+            ) {
+          return Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Doctorlist(
+                        appointment_date: _controller.selectedDay,
+                      )));
+        } else {
           return null;
         }
         // return Navigator.push(
@@ -115,13 +118,13 @@ var calendarvalue=0;
       } else {
         setState(() {
           appointmentbydate = jsonDecode(result.body);
-          calendarvalue=1;
+          calendarvalue = 1;
         });
         return Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => Showappointment(
-                  calendartest: calendarvalue.toString(),
+                      calendartest: calendarvalue.toString(),
                       bydate: appointmentbydate,
                       timer: _controller.selectedDay,
                     )));
@@ -136,13 +139,15 @@ var calendarvalue=0;
     });
     return newMap;
   }
-DateTime dateTime = DateTime.now();
+
+  DateTime dateTime = DateTime.now();
   _appointmentybyMonth() async {
     final response = await http.post(apipath + '/getAppointmentBymonth', body: {
       "user_id": _userid,
-      "start_date":DateFormat("yyyy-MM-dd").format(_controller.visibleDays.first),
+      "start_date":
+          DateFormat("yyyy-MM-dd").format(_controller.visibleDays.first),
       "end_date": DateFormat("yyyy-MM-dd").format(_controller.visibleDays.last),
-       'timezone': dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((test) {
       setState(() {
         var result = jsonDecode(test.body) as List;
@@ -171,9 +176,9 @@ DateTime dateTime = DateTime.now();
             decoration: new BoxDecoration(
                 // color: Colors.white,
                 borderRadius: new BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0),
-                )),
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+            )),
             padding: EdgeInsets.only(
               top: 0,
             ),
@@ -199,7 +204,8 @@ DateTime dateTime = DateTime.now();
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               // SizedBox(width: 50),
-                           Center(child:Text(
+                              Center(
+                                  child: Text(
                                 'Schedule An Appointment',
                                 style: TextStyle(
                                     color: buttonTextColor, fontSize: 18),
@@ -250,7 +256,8 @@ DateTime dateTime = DateTime.now();
                             color: buttonColor,
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          formatButtonTextStyle: TextStyle(color: buttonTextColor),
+                          formatButtonTextStyle:
+                              TextStyle(color: buttonTextColor),
                           formatButtonShowsNext: false,
                         ),
                         startingDayOfWeek: StartingDayOfWeek.monday,
@@ -312,7 +319,8 @@ DateTime dateTime = DateTime.now();
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Doctorlist(appointment_date: DateTime.now())));
+                  builder: (context) =>
+                      Doctorlist(appointment_date: DateTime.now())));
         },
       ),
     );

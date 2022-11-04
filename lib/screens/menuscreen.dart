@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:newagileapp/categories.dart';
-import 'package:newagileapp/color.dart';
+import 'package:doctoragileapp/categories.dart';
+import 'package:doctoragileapp/color.dart';
 
-import 'package:newagileapp/screens/login.dart';
-import 'package:newagileapp/screens/profilepage.dart';
-import 'package:newagileapp/screens/selfassess.dart';
-import 'package:newagileapp/triage/calendarscreen.dart';
-import 'package:newagileapp/homescreen.dart';
-import 'package:newagileapp/versionpage.dart';
+import 'package:doctoragileapp/screens/login.dart';
+import 'package:doctoragileapp/screens/profilepage.dart';
+import 'package:doctoragileapp/screens/selfassess.dart';
+import 'package:doctoragileapp/triage/calendarscreen.dart';
+import 'package:doctoragileapp/homescreen.dart';
+import 'package:doctoragileapp/versionpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +24,7 @@ class Menuscreen extends StatefulWidget {
 }
 
 class _TestcatState extends State<Menuscreen> {
-   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   void logout(BuildContext context) async {
     setState(() {});
 
@@ -40,9 +40,9 @@ class _TestcatState extends State<Menuscreen> {
   void initState() {
     super.initState();
     _localtoken();
-    
   }
-   _showRatingDialog() {
+
+  _showRatingDialog() {
     // actual store listing review & rating
     void _rateAndReviewApp() async {
       // refer to: https://pub.dev/packages/in_app_review
@@ -58,7 +58,7 @@ class _TestcatState extends State<Menuscreen> {
           appStoreId: 'com.lacimasoftware.agilemeduser',
           microsoftStoreId: 'com.lacimasoftware.agilemedapplicationtwo',
         );
-      //StoreRedirect.redirect(androidAppId: 'com.lacimasoftware.agilemedapplicationtwo',iOSAppId: 'com.lacimasoftware.agilemeduser');
+        //StoreRedirect.redirect(androidAppId: 'com.lacimasoftware.agilemedapplicationtwo',iOSAppId: 'com.lacimasoftware.agilemeduser');
       }
     }
 
@@ -80,26 +80,25 @@ class _TestcatState extends State<Menuscreen> {
         style: const TextStyle(fontSize: 15),
       ),
       // your app's logo?
-      image:  Center(child: Container(
-                                     
-                                     height: 80,
-                                     width: 80,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(120.0),
-                                        child: Hero(
-                                          tag: '',
-                                          child: Image(
-                                            image: AssetImage('assets/Logo_BG.png'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    )),
+      image: Center(
+          child: Container(
+        height: 80,
+        width: 80,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(120.0),
+          child: Hero(
+            tag: '',
+            child: Image(
+              image: AssetImage('assets/Logo_BG.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      )),
       // CircleAvatar(
       //   child: Image.asset('assets/Logo_BG.png',height: 100,fit: BoxFit.fitHeight,),
       // ),
-      
+
       submitButtonText: 'Submit',
       commentHint: 'Set your custom comment hint',
       onCancelled: () => print('cancelled'),
@@ -123,6 +122,7 @@ class _TestcatState extends State<Menuscreen> {
       builder: (context) => _dialog,
     );
   }
+
   String _loginusername;
   String _loginuserphn;
 
@@ -147,14 +147,16 @@ class _TestcatState extends State<Menuscreen> {
         MaterialPageRoute(builder: (BuildContext context) => Loginpage()),
         (Route<dynamic> route) => false);
   }
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  // Optional clientId
-  clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
-);
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    clientId:
+        '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,121 +220,134 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                                   margin: EdgeInsets.only(top: 10.0),
                                   color: greyContainer,
                                   height: 200,
-                                  child:  Column(   mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                           Row(children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(left: 10),
-                                      height: 80,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        child: Hero(
-                                          tag: '',
-                                          child: Image(
-                                            height: 40.0,
-                                            width: 40.0,
-                                            image: AssetImage('assets/d1.jpg'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(children: <Widget>[
                                           Container(
-                                            width: 150,
-                                            padding: EdgeInsets.only(
-                                                top: 0, left: 20),
-                                            child: Text(
-                                              _loginusername,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: blackTextColor),
+                                            padding: EdgeInsets.only(left: 10),
+                                            height: 80,
+                                            width: 90,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              child: Hero(
+                                                tag: '',
+                                                child: Image(
+                                                  height: 40.0,
+                                                  width: 40.0,
+                                                  image: AssetImage(
+                                                      'assets/d1.jpg'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          Container(
-                                              padding:
-                                                  EdgeInsets.only(left: 20),
-                                              child: Text("Edit your profile",
-                                                  style: TextStyle(
-                                                      color: greyTextColor))),
+                                          Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 150,
+                                                  padding: EdgeInsets.only(
+                                                      top: 0, left: 20),
+                                                  child: Text(
+                                                    _loginusername,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: blackTextColor),
+                                                  ),
+                                                ),
+                                                Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 20),
+                                                    child: Text(
+                                                        "Edit your profile",
+                                                        style: TextStyle(
+                                                            color:
+                                                                greyTextColor))),
+                                              ]),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 7, bottom: 45)),
+                                              Container(
+                                                  padding: EdgeInsets.only(
+                                                      top: 0, bottom: 40),
+                                                  child: IconButton(
+                                                      icon: Icon(Icons.edit,
+                                                          color: buttonColor),
+                                                      onPressed: () {
+                                                        Navigator.pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        Profilepage()));
+                                                      }))
+                                            ],
+                                          ),
+                                          // Column(
+                                          //   crossAxisAlignment:
+                                          //       CrossAxisAlignment.start,
+                                          //   children: <Widget>[
+                                          //     Container(
+                                          //       padding: EdgeInsets.only(
+                                          //           top: 110, right: 1),
+                                          //       child: RaisedButton(
+                                          //           child: Text(
+                                          //             'SIGNOUT',
+                                          //             style: TextStyle(
+                                          //                 color: Colors.white),
+                                          //           ),
+                                          //           onPressed: () {
+                                          //             signout(context);
+                                          //           },
+                                          //           color: kPrimaryColor),
+                                          //     )
+                                          //   ],
+                                          // )
                                         ]),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                left: 7, bottom: 45)),
-                                        Container(
-                                            padding: EdgeInsets.only(
-                                                top: 0, bottom: 40),
-                                            child: IconButton(
-                                                icon: Icon(Icons.edit,
-                                                    color: buttonColor),
-                                                onPressed: () {
-                                                  Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Profilepage()));
-                                                }))
-                                      ],
-                                    ),
-                                    // Column(
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.start,
-                                    //   children: <Widget>[
-                                    //     Container(
-                                    //       padding: EdgeInsets.only(
-                                    //           top: 110, right: 1),
-                                    //       child: RaisedButton(
-                                    //           child: Text(
-                                    //             'SIGNOUT',
-                                    //             style: TextStyle(
-                                    //                 color: Colors.white),
-                                    //           ),
-                                    //           onPressed: () {
-                                    //             signout(context);
-                                    //           },
-                                    //           color: kPrimaryColor),
-                                    //     )
-                                    //   ],
-                                    // )
-                                  ]), Padding(padding: EdgeInsets.only(left: 80,top:20),child: 
-           Container(
-        height: 40,
-        width: 75,
-        child:
-            RaisedButton(
+                                                left: 80, top: 20),
+                                            child: Container(
+                                                height: 40,
+                                                width: 75,
+                                                child: RaisedButton(
+                                                    child: Text(
+                                                      'SIGNOUT',
+                                                      style: TextStyle(
+                                                          color:
+                                                              buttonTextColor,
+                                                          fontSize: 9),
+                                                    ),
+                                                    onPressed: () async {
+                                                      //       SharedPreferences localStorage = await SharedPreferences.getInstance();
 
-                                     child:Text('SIGNOUT',style: TextStyle(color:buttonTextColor,fontSize: 9),) ,onPressed: ()async{
-    //       SharedPreferences localStorage = await SharedPreferences.getInstance();
-
-    // localStorage.remove('name');
-    // localStorage.remove('id');
-    // localStorage.remove('token');  
-     //_googleSignIn.disconnect();
-  _googleSignIn.signOut();
-    // FirebaseAuth.instance.signOut();   
-       await FirebaseAuth.instance.signOut();
-// firebaseUser = await  _auth.currentUser();    
- signout(context);
-
- 
-                                     },
-                                     color: buttonColor) )),
-                               
-                                        ]))
+                                                      // localStorage.remove('name');
+                                                      // localStorage.remove('id');
+                                                      // localStorage.remove('token');
+                                                      //_googleSignIn.disconnect();
+                                                      _googleSignIn.signOut();
+                                                      // FirebaseAuth.instance.signOut();
+                                                      await FirebaseAuth
+                                                          .instance
+                                                          .signOut();
+// firebaseUser = await  _auth.currentUser();
+                                                      signout(context);
+                                                    },
+                                                    color: buttonColor))),
+                                      ]))
                             ],
                           )),
                       Container(
@@ -344,11 +359,10 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                             children: <Widget>[
                               InkWell(
                                 onTap: () {
-                                   Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Chatscreen()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Chatscreen()));
                                 },
                                 child: SizedBox(
                                   height: 40,
@@ -358,8 +372,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                                         color: greyContainer,
                                         borderRadius: BorderRadius.vertical(),
                                         border: Border.all(
-                                            color:containerBorderColor)
-                                            ),
+                                            color: containerBorderColor)),
                                     padding: EdgeInsets.only(top: 7, left: 16),
                                     child: Text(
                                       'INBOX',
@@ -372,7 +385,10 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                               ),
                               InkWell(
                                 onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Categoryset()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Categoryset()));
                                 },
                                 child: SizedBox(
                                   height: 40,
@@ -395,11 +411,11 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                               ),
                               InkWell(
                                 onTap: () {
-                                   Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Calendarscreen()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Calendarscreen()));
                                 },
                                 child: SizedBox(
                                   height: 40,
@@ -409,12 +425,12 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                                         color: greyContainer,
                                         borderRadius: BorderRadius.circular(3),
                                         border: Border.all(
-                                            color:containerBorderColor)),
+                                            color: containerBorderColor)),
                                     padding: EdgeInsets.only(top: 7, left: 16),
                                     child: Text(
                                       'CALENDAR',
                                       style: TextStyle(
-                                          fontSize: 15, color:blackTextColor),
+                                          fontSize: 15, color: blackTextColor),
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
@@ -422,12 +438,12 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                               ),
                               InkWell(
                                 onTap: () {
-                                    Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Upcomingappointment()));
-                                //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Selfassess()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Upcomingappointment()));
+                                  //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Selfassess()));
                                 },
                                 child: SizedBox(
                                   height: 40,
@@ -442,7 +458,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                                     child: Text(
                                       'APPOINTMENTS',
                                       style: TextStyle(
-                                          fontSize: 15, color:blackTextColor),
+                                          fontSize: 15, color: blackTextColor),
                                       textAlign: TextAlign.left,
                                     ),
                                   ),
@@ -470,7 +486,12 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                                 ),
                               ),
                               InkWell(
-                                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>Versionpage()));},
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Versionpage()));
+                                },
                                 child: SizedBox(
                                   height: 40,
                                   width: 100,
@@ -480,13 +501,14 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
                                           borderRadius:
                                               BorderRadius.circular(3),
                                           border: Border.all(
-                                              color:containerBorderColor)),
+                                              color: containerBorderColor)),
                                       padding:
                                           EdgeInsets.only(top: 7, left: 16),
                                       child: Text(
                                         'ABOUT',
                                         style: TextStyle(
-                                            fontSize: 15, color:blackTextColor),
+                                            fontSize: 15,
+                                            color: blackTextColor),
                                         textAlign: TextAlign.left,
                                       )),
                                 ),

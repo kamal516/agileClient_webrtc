@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/screens/chatlist.dart';
-import 'package:newagileapp/screens/login.dart';
-import 'package:newagileapp/screens/menuscreen.dart';
-import 'package:newagileapp/screens/notificationlist.dart';
-import 'package:newagileapp/triage/detailpage.dart';
-import 'package:newagileapp/widgets/ZoomMeeting.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/screens/chatlist.dart';
+import 'package:doctoragileapp/screens/login.dart';
+import 'package:doctoragileapp/screens/menuscreen.dart';
+import 'package:doctoragileapp/screens/notificationlist.dart';
+import 'package:doctoragileapp/triage/detailpage.dart';
+import 'package:doctoragileapp/widgets/ZoomMeeting.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Upcomingappointment extends StatefulWidget {
@@ -195,7 +195,8 @@ class _LoginPageState extends State<Upcomingappointment> {
 //  confirmationalert();
     // _getsignupdata();
   }
-   var confirmedstatus;
+
+  var confirmedstatus;
   confirmationstatus(BuildContext context, int selected_id) async {
     final response = await http.post(apipath + '/confirmAppointmentByClient',
         body: {'appointment_id': selected_id.toString()}).then((result) {
@@ -209,7 +210,8 @@ class _LoginPageState extends State<Upcomingappointment> {
       return confirmedstatus['msg'];
     });
   }
-  void startTimer() {   
+
+  void startTimer() {
     _timer = new Timer.periodic(new Duration(seconds: 1), (time) {
       //  print(time);
       _getmessage();
@@ -284,7 +286,7 @@ class _LoginPageState extends State<Upcomingappointment> {
 
   var data;
 // DateTime dateTime = DateTime.now();
- void noUserLogout() async {
+  void noUserLogout() async {
     http.post(apipath + '/checkUser', body: {'user_id': _localuserid}).then(
         (value) async {
       setState(() {
@@ -304,7 +306,7 @@ class _LoginPageState extends State<Upcomingappointment> {
     });
   }
 
- void _getsignupdata() async {
+  void _getsignupdata() async {
     http.post(apipath + '/verifyUser', body: {
       'email': _localuseremail,
       'timezone': dateTime.timeZoneName
@@ -873,26 +875,27 @@ class _LoginPageState extends State<Upcomingappointment> {
                                                                     );
                                                                   });
                                                             },
-                                                            child:appointmentdata[index]['is_cancellation_expire']==false?Container(): Container(
-                                                                height: 32,
-                                                                width: 32,
-                                                                decoration: BoxDecoration(
-                                                                    color:
-                                                                        deleteiconBackgroundColor,
-                                                                    shape: BoxShape
-                                                                        .circle),
-                                                                child: Padding(
-                                                                    padding: EdgeInsets.only(
-                                                                        top: 4,
-                                                                        left:
-                                                                            10),
-                                                                    child:
-                                                                        Center(
-                                                                      child: SvgPicture.asset(
-                                                                          'assets/Delete.svg',
-                                                                          color:
-                                                                              iconColor),
-                                                                    )))),
+                                                            child: appointmentdata[
+                                                                            index]
+                                                                        [
+                                                                        'is_cancellation_expire'] ==
+                                                                    false
+                                                                ? Container()
+                                                                : Container(
+                                                                    height: 32,
+                                                                    width: 32,
+                                                                    decoration: BoxDecoration(
+                                                                        color:
+                                                                            deleteiconBackgroundColor,
+                                                                        shape: BoxShape
+                                                                            .circle),
+                                                                    child: Padding(
+                                                                        padding: EdgeInsets.only(top: 4, left: 10),
+                                                                        child: Center(
+                                                                          child: SvgPicture.asset(
+                                                                              'assets/Delete.svg',
+                                                                              color: iconColor),
+                                                                        )))),
                                                         SizedBox(
                                                           width: 2,
                                                         ),
@@ -932,133 +935,133 @@ class _LoginPageState extends State<Upcomingappointment> {
                                                                           color:
                                                                               iconColor),
                                                                     )))),
-                                                      //     SizedBox(
-                                                      //     width: 2,
-                                                      //   ),
-                                                      //              GestureDetector(
-                                                      // onTap: () {
-                                                      //   return showDialog(
-                                                      //       context: context,
-                                                      //       barrierDismissible:
-                                                      //           false,
-                                                      //       builder:
-                                                      //           (BuildContext
-                                                      //               context) {
-                                                      //         return AlertDialog(
-                                                      //           shape: RoundedRectangleBorder(
-                                                      //               borderRadius:
-                                                      //                   BorderRadius.all(
-                                                      //                       Radius.circular(32.0))),
-                                                      //           title: Column(
-                                                      //             children: <
-                                                      //                 Widget>[
-                                                      //               Container(
-                                                      //                 child: Text(
-                                                      //                     'CONFIRMATION'),
-                                                      //               ),
-                                                      //               Divider(
-                                                      //                   color:
-                                                      //                       dividerColor),
-                                                      //               SizedBox(
-                                                      //                 height:
-                                                      //                     20,
-                                                      //               ),
-                                                      //               Container(
-                                                      //                   width:
-                                                      //                       200.0,
-                                                      //                   height:
-                                                      //                       100.0,
-                                                      //                   decoration:
-                                                      //                       BoxDecoration(
-                                                      //                     borderRadius:
-                                                      //                         BorderRadius.circular(67),
-                                                      //                   ), 
-                                                      //                   child:
-                                                      //                       Text(
-                                                      //                     'Are you sure you want to confirm this appointment?',
-                                                      //                     style: TextStyle(
-                                                      //                         color: Colors.black,
-                                                      //                         fontSize: 15,
-                                                      //                         fontWeight: FontWeight.w600),
-                                                      //                     textAlign:
-                                                      //                         TextAlign.center,
-                                                      //                   )),
-                                                      //             ],
-                                                      //           ),
-                                                      //           content: Row(
-                                                      //             mainAxisAlignment:
-                                                      //                 MainAxisAlignment
-                                                      //                     .spaceAround,
-                                                      //             children: <
-                                                      //                 Widget>[
-                                                      //               RaisedButton(
-                                                      //                   color:
-                                                      //                       buttonColor,
-                                                      //                   child:
-                                                      //                       Text(
-                                                      //                     'YES',
-                                                      //                     style:
-                                                      //                         TextStyle(color: buttonTextColor),
-                                                      //                   ),
-                                                      //                   onPressed:
-                                                      //                       () async {
-                                                                      
-                                                      //                     confirmationstatus(
-                                                      //                         context,
-                                                      //                         appointmentdata[index]['appointment_id']);
+                                                        //     SizedBox(
+                                                        //     width: 2,
+                                                        //   ),
+                                                        //              GestureDetector(
+                                                        // onTap: () {
+                                                        //   return showDialog(
+                                                        //       context: context,
+                                                        //       barrierDismissible:
+                                                        //           false,
+                                                        //       builder:
+                                                        //           (BuildContext
+                                                        //               context) {
+                                                        //         return AlertDialog(
+                                                        //           shape: RoundedRectangleBorder(
+                                                        //               borderRadius:
+                                                        //                   BorderRadius.all(
+                                                        //                       Radius.circular(32.0))),
+                                                        //           title: Column(
+                                                        //             children: <
+                                                        //                 Widget>[
+                                                        //               Container(
+                                                        //                 child: Text(
+                                                        //                     'CONFIRMATION'),
+                                                        //               ),
+                                                        //               Divider(
+                                                        //                   color:
+                                                        //                       dividerColor),
+                                                        //               SizedBox(
+                                                        //                 height:
+                                                        //                     20,
+                                                        //               ),
+                                                        //               Container(
+                                                        //                   width:
+                                                        //                       200.0,
+                                                        //                   height:
+                                                        //                       100.0,
+                                                        //                   decoration:
+                                                        //                       BoxDecoration(
+                                                        //                     borderRadius:
+                                                        //                         BorderRadius.circular(67),
+                                                        //                   ),
+                                                        //                   child:
+                                                        //                       Text(
+                                                        //                     'Are you sure you want to confirm this appointment?',
+                                                        //                     style: TextStyle(
+                                                        //                         color: Colors.black,
+                                                        //                         fontSize: 15,
+                                                        //                         fontWeight: FontWeight.w600),
+                                                        //                     textAlign:
+                                                        //                         TextAlign.center,
+                                                        //                   )),
+                                                        //             ],
+                                                        //           ),
+                                                        //           content: Row(
+                                                        //             mainAxisAlignment:
+                                                        //                 MainAxisAlignment
+                                                        //                     .spaceAround,
+                                                        //             children: <
+                                                        //                 Widget>[
+                                                        //               RaisedButton(
+                                                        //                   color:
+                                                        //                       buttonColor,
+                                                        //                   child:
+                                                        //                       Text(
+                                                        //                     'YES',
+                                                        //                     style:
+                                                        //                         TextStyle(color: buttonTextColor),
+                                                        //                   ),
+                                                        //                   onPressed:
+                                                        //                       () async {
 
-                                                      //                     // _deleteappointment(user[index]['appointment_id']);
-                                                      //                   }),
-                                                      //               RaisedButton(
-                                                      //                   color:
-                                                      //                       disclaimeridontButtonColor,
-                                                      //                   child:
-                                                      //                       Text(
-                                                      //                     'NO',
-                                                      //                     style:
-                                                      //                         TextStyle(color: buttonTextColor),
-                                                      //                   ),
-                                                      //                   onPressed:
-                                                      //                       () {
-                                                      //                     Navigator.pop(
-                                                      //                         context);
-                                                      //                   })
-                                                      //             ],
-                                                      //           ),
-                                                      //         );
-                                                      //       });
-                                                      // },
-                                                      // child: appointmentdata[index][
-                                                      //                 'appointment_status'] ==
-                                                      //             "Confirm" &&
-                                                      //         appointmentdata[index]
-                                                      //                 [
-                                                      //                 'appointment_status'] !=
-                                                      //             "Completed"
-                                                      //     ?
-                                                      //     // confirmedstatus==null?
-                                                      //     Container(
-                                                      //         height: 32,
-                                                      //         width: 32,
-                                                      //         decoration: BoxDecoration(
-                                                      //             borderRadius:
-                                                      //                 BorderRadius
-                                                      //                     .circular(
-                                                      //                         18),
-                                                      //             color:
-                                                      //                 checkColor
-                                                               
-                                                      //             ),
-                                                      //         child: Center(
-                                                      //           child: Icon(
-                                                      //             Icons.check,
-                                                      //             color:
-                                                      //                 iconColor,
-                                                      //           ),
-                                                      //         )
-                                                            
-                                                      //         )
-                                                      //     : Container()),
+                                                        //                     confirmationstatus(
+                                                        //                         context,
+                                                        //                         appointmentdata[index]['appointment_id']);
+
+                                                        //                     // _deleteappointment(user[index]['appointment_id']);
+                                                        //                   }),
+                                                        //               RaisedButton(
+                                                        //                   color:
+                                                        //                       disclaimeridontButtonColor,
+                                                        //                   child:
+                                                        //                       Text(
+                                                        //                     'NO',
+                                                        //                     style:
+                                                        //                         TextStyle(color: buttonTextColor),
+                                                        //                   ),
+                                                        //                   onPressed:
+                                                        //                       () {
+                                                        //                     Navigator.pop(
+                                                        //                         context);
+                                                        //                   })
+                                                        //             ],
+                                                        //           ),
+                                                        //         );
+                                                        //       });
+                                                        // },
+                                                        // child: appointmentdata[index][
+                                                        //                 'appointment_status'] ==
+                                                        //             "Confirm" &&
+                                                        //         appointmentdata[index]
+                                                        //                 [
+                                                        //                 'appointment_status'] !=
+                                                        //             "Completed"
+                                                        //     ?
+                                                        //     // confirmedstatus==null?
+                                                        //     Container(
+                                                        //         height: 32,
+                                                        //         width: 32,
+                                                        //         decoration: BoxDecoration(
+                                                        //             borderRadius:
+                                                        //                 BorderRadius
+                                                        //                     .circular(
+                                                        //                         18),
+                                                        //             color:
+                                                        //                 checkColor
+
+                                                        //             ),
+                                                        //         child: Center(
+                                                        //           child: Icon(
+                                                        //             Icons.check,
+                                                        //             color:
+                                                        //                 iconColor,
+                                                        //           ),
+                                                        //         )
+
+                                                        //         )
+                                                        //     : Container()),
                                                       ],
                                                     ))
                                                   ],

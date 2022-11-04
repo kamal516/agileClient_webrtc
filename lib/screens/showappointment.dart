@@ -3,24 +3,25 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:newagileapp/api.dart';
-import 'package:newagileapp/color.dart';
-import 'package:newagileapp/triage/detailpage.dart';
+import 'package:doctoragileapp/api.dart';
+import 'package:doctoragileapp/color.dart';
+import 'package:doctoragileapp/triage/detailpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:newagileapp/widgets/bottomnavbar.dart';
+import 'package:doctoragileapp/widgets/bottomnavbar.dart';
 
 class Showappointment extends StatefulWidget {
   final List<dynamic> bydate;
   final DateTime timer;
-final String calendartest;
-  Showappointment({Key key, this.timer, this.bydate,this.calendartest}) : super(key: key);
+  final String calendartest;
+  Showappointment({Key key, this.timer, this.bydate, this.calendartest})
+      : super(key: key);
   @override
   _DoctorListState createState() => _DoctorListState();
 }
 
 class _DoctorListState extends State<Showappointment> {
   bool _hasBeenPressed = false;
- List doctorbyiddata;
+  List doctorbyiddata;
   List<IconData> icnlst = [Icons.mail, Icons.access_alarm];
   List<IconData> icnDoctorlst = [Icons.assignment_turned_in, Icons.message];
   int selectedIndex;
@@ -59,14 +60,15 @@ class _DoctorListState extends State<Showappointment> {
 
     _getid();
   }
-DateTime dateTime = DateTime.now();
+
+  DateTime dateTime = DateTime.now();
   _deleteappointment(int apointid) async {
     final response = await http.post(apipath + '/cancelAppointmnet', body: {
       "appointment_id": apointid.toString(),
       "holder_id": widget.bydate[0]['holder_id'].toString(),
       "username": widget.bydate[0]['client_name'],
       "user_id": id,
- 'timezone': dateTime.timeZoneName
+      'timezone': dateTime.timeZoneName
     }).then((test) {
       print(test.body);
       Navigator.pop(context);
@@ -104,9 +106,9 @@ DateTime dateTime = DateTime.now();
                 decoration: new BoxDecoration(
                     // color: kPrimaryLightColour,
                     borderRadius: new BorderRadius.only(
-                      topLeft: const Radius.circular(40.0),
-                      topRight: const Radius.circular(40.0),
-                    )),
+                  topLeft: const Radius.circular(40.0),
+                  topRight: const Radius.circular(40.0),
+                )),
                 padding: EdgeInsets.only(
                   top: 0,
                 ),
@@ -139,11 +141,12 @@ DateTime dateTime = DateTime.now();
                               // SizedBox(
                               //   width: 80,
                               // ),
-                        Center(child:      Text(
+                              Center(
+                                  child: Text(
                                 'APPOINTMENT',
                                 style: TextStyle(
                                     color: buttonTextColor, fontSize: 19),
-                         ) ),
+                              )),
                               // SizedBox(
                               //   width: 110,
                               // ),
@@ -162,7 +165,8 @@ DateTime dateTime = DateTime.now();
                         alignment: Alignment.center,
                         child: Text(
                           DateFormat(' EEEE, d MMMM , y').format(widget.timer),
-                          style: TextStyle(fontSize: 20, color: buttonTextColor),
+                          style:
+                              TextStyle(fontSize: 20, color: buttonTextColor),
                         )),
                     Container(
                         height: 580,
@@ -177,228 +181,310 @@ DateTime dateTime = DateTime.now();
                             child: ListView.builder(
                                 itemCount: widget.bydate.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                return     widget.timer.isBefore(DateTime.now())? 
-                                new  Card(
-                                              color: buttonColor,
-                                              semanticContainer: true,
-                                              child: ListTile(
-                                                  title: Text(
-                                                    widget.bydate[index]
-                                                        ['doctorname'],
-                                                    // _user(
-                                                    //   snapshot.data[index],
-                                                    // ),
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        color: buttonTextColor,
-                                                        fontSize: 18),
-                                                  ),
-                                                  subtitle: Text(
-                                                     widget.bydate[index]
-                                                        ['issue']==null?'':
-                                                    widget.bydate[index]
-                                                        ['issue'],
-                                                    // _issue(
-                                                    //   snapshot.data[index],
-                                                    // ),
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 15),
-                                                  ),
-                                                  trailing: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10),
-                                                      child: Column(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            child: 
-                                                            Text(
-                                                      DateFormat().add_jm().format(DateTime.parse(widget.bydate[index]['appointment_date'])),
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: buttonTextColor,
-                                                          fontSize: 15),
-                                                    ),
-                                                            // Text(
-                                                            //   widget.bydate[
-                                                            //           index][
-                                                            //       'appointment_time'],
-                                                            //   // _time(
-                                                            //   //   snapshot.data[index],
-                                                            //   // ),
-                                                            //   textAlign:
-                                                            //       TextAlign
-                                                            //           .left,
-                                                            //   style: TextStyle(
-                                                            //       color: Colors
-                                                            //           .black,
-                                                            //       fontSize: 15),
-                                                            // ),
-                                                          ),
-                                                          // SizedBox(
-                                                          //   height: 2,
-                                                          // ),
-                                                          // Container(
-                                                          //   child: Text(
-                                                          //     'David cose',
-                                                          //     // _time(
-                                                          //     //   snapshot.data[index],
-                                                          //     // ),
-                                                          //     textAlign:
-                                                          //         TextAlign
-                                                          //             .left,
-                                                          //     style: TextStyle(
-                                                          //         color: Colors
-                                                          //             .black,
-                                                          //         fontSize: 14),
-                                                          //   ),
-                                                          // )
-                                                        ],
-                                                      ))),
-                                        ):
-                                  new SlideMenu(
-                                    child: new Card(
-                                      color: buttonColor,
-                                      semanticContainer: true,
-                                      child: ListTile(
-                                          title: Text(
-                                            widget.bydate[index]['doctorname'],
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: buttonTextColor,
-                                                fontSize: 18),
-                                          ),
-                                          subtitle: Text(
-                                            widget.bydate[index]['issue'] ==
-                                                    null
-                                                ? ''
-                                                : widget.bydate[index]['issue'],
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                color: buttonTextColor,
-                                                fontSize: 15),
-                                          ),
-                                          trailing: Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    child: Text(
-                                                      DateFormat().add_jm().format(DateTime.parse(widget.bydate[index]['appointment_date']).toLocal()),
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: buttonTextColor,
-                                                          fontSize: 15),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Container(
-                                                    child: Text(
-                                                      '',
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: buttonTextColor,
-                                                          fontSize: 14),
-                                                    ),
-                                                  )
-                                                ],
-                                              ))),
-                                    ),
-                                    menuItems: <Widget>[
-                                      GestureDetector(
-                                          onTap: () {
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (context)  {
-                                                                     final ddata =  http.post(apipath + '/doctorListByIdAppointment', body: {
-      
-'appointment_date':DateTime.parse(widget.bydate[index]['appointment_date']).toLocal().toString(),
-
-'timezone':dateTime.timeZoneName,
-      "user_id":widget.bydate[index]['holder_id'].toString(),
-    }).then((value) {
-      // return value.body;
-      setState(() {
-        
-        doctorbyiddata = jsonDecode(value.body);
-      });
-    
-    return  Navigator.push(context, MaterialPageRoute(builder: (context) =>
-       Detailpage(calendarvalue: widget.calendartest,
-                                                           starttime:doctorbyiddata[0]['available_start_time'] ,
-    endtime:doctorbyiddata[0]['available_end_time'] ,
-                                                            doctor: widget.bydate[index]['doctorname'],
-                                                            holderid:
-                                                                widget.bydate[index]['holder_id']
-                                                                    .toString(),
-                                                            user_image: widget.bydate[index]['user_profile'],
-                                                            // _user(
-                                                            email: widget.bydate[index]['doctoremail'],
-                                                            name: widget.bydate[index]['client_name'],
-                                                            phonenumber: widget.bydate[index]['phonenumber'],
-                                                            problem: widget.bydate[index]['issue'],
-                                                            appointment_id: widget.bydate[index]['appointment_id']
-                                                                .toString(),
-                                                            appointment_datetime: DateTime.parse(widget.bydate[index]['appointment_date']),
-                                                             )
-    )) ;
-    });
-                                                                    
-                                                                 
-                                                    //  }
-                                                    //         ));
-                                          },
-                                          child: Container(
-                                            color: rescheduleBackgroundColor,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: <Widget>[
-                                                SvgPicture.asset(
-                                                  'assets/reschedule.svg',
-                                                  color: buttonTextColor,
-                                                ),
-                                                Text(
-                                                  "RE-SCHEDULE",
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: buttonTextColor),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                           widget.bydate[index]
-                                                        ['is_cancellation_expire']==false?Container():
-                                      GestureDetector(
-                                          onTap: () {
-                                            _deleteappointment(
+                                  return widget.timer.isBefore(DateTime.now())
+                                      ? new Card(
+                                          color: buttonColor,
+                                          semanticContainer: true,
+                                          child: ListTile(
+                                              title: Text(
                                                 widget.bydate[index]
-                                                    ['appointment_id']);
-                                          },
-                                          child: Container(
-                                            color: deleteiconBackgroundColor,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: <Widget>[
-                                                SvgPicture.asset(
-                                                    'assets/close.svg',
-                                                    color: buttonTextColor),
-                                                Text(
-                                                  "CANCEL IT",
+                                                    ['doctorname'],
+                                                // _user(
+                                                //   snapshot.data[index],
+                                                // ),
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: buttonTextColor,
+                                                    fontSize: 18),
+                                              ),
+                                              subtitle: Text(
+                                                widget.bydate[index]['issue'] ==
+                                                        null
+                                                    ? ''
+                                                    : widget.bydate[index]
+                                                        ['issue'],
+                                                // _issue(
+                                                //   snapshot.data[index],
+                                                // ),
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15),
+                                              ),
+                                              trailing: Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 10),
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      Container(
+                                                        child: Text(
+                                                          DateFormat()
+                                                              .add_jm()
+                                                              .format(DateTime.parse(
+                                                                  widget.bydate[
+                                                                          index]
+                                                                      [
+                                                                      'appointment_date'])),
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  buttonTextColor,
+                                                              fontSize: 15),
+                                                        ),
+                                                        // Text(
+                                                        //   widget.bydate[
+                                                        //           index][
+                                                        //       'appointment_time'],
+                                                        //   // _time(
+                                                        //   //   snapshot.data[index],
+                                                        //   // ),
+                                                        //   textAlign:
+                                                        //       TextAlign
+                                                        //           .left,
+                                                        //   style: TextStyle(
+                                                        //       color: Colors
+                                                        //           .black,
+                                                        //       fontSize: 15),
+                                                        // ),
+                                                      ),
+                                                      // SizedBox(
+                                                      //   height: 2,
+                                                      // ),
+                                                      // Container(
+                                                      //   child: Text(
+                                                      //     'David cose',
+                                                      //     // _time(
+                                                      //     //   snapshot.data[index],
+                                                      //     // ),
+                                                      //     textAlign:
+                                                      //         TextAlign
+                                                      //             .left,
+                                                      //     style: TextStyle(
+                                                      //         color: Colors
+                                                      //             .black,
+                                                      //         fontSize: 14),
+                                                      //   ),
+                                                      // )
+                                                    ],
+                                                  ))),
+                                        )
+                                      : new SlideMenu(
+                                          child: new Card(
+                                            color: buttonColor,
+                                            semanticContainer: true,
+                                            child: ListTile(
+                                                title: Text(
+                                                  widget.bydate[index]
+                                                      ['doctorname'],
+                                                  textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: buttonTextColor),
+                                                      color: buttonTextColor,
+                                                      fontSize: 18),
                                                 ),
-                                              ],
-                                            ),
-                                          )),
-                                    ],
-                                  );
+                                                subtitle: Text(
+                                                  widget.bydate[index]
+                                                              ['issue'] ==
+                                                          null
+                                                      ? ''
+                                                      : widget.bydate[index]
+                                                          ['issue'],
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: buttonTextColor,
+                                                      fontSize: 15),
+                                                ),
+                                                trailing: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Text(
+                                                            DateFormat()
+                                                                .add_jm()
+                                                                .format(DateTime.parse(
+                                                                        widget.bydate[index]
+                                                                            [
+                                                                            'appointment_date'])
+                                                                    .toLocal()),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    buttonTextColor,
+                                                                fontSize: 15),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 2,
+                                                        ),
+                                                        Container(
+                                                          child: Text(
+                                                            '',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                                color:
+                                                                    buttonTextColor,
+                                                                fontSize: 14),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ))),
+                                          ),
+                                          menuItems: <Widget>[
+                                            GestureDetector(
+                                                onTap: () {
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //         builder: (context)  {
+                                                  final ddata = http.post(
+                                                      apipath +
+                                                          '/doctorListByIdAppointment',
+                                                      body: {
+                                                        'appointment_date':
+                                                            DateTime.parse(widget
+                                                                            .bydate[
+                                                                        index][
+                                                                    'appointment_date'])
+                                                                .toLocal()
+                                                                .toString(),
+                                                        'timezone': dateTime
+                                                            .timeZoneName,
+                                                        "user_id": widget
+                                                            .bydate[index]
+                                                                ['holder_id']
+                                                            .toString(),
+                                                      }).then((value) {
+                                                    // return value.body;
+                                                    setState(() {
+                                                      doctorbyiddata =
+                                                          jsonDecode(
+                                                              value.body);
+                                                    });
+
+                                                    return Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    Detailpage(
+                                                                      calendarvalue:
+                                                                          widget
+                                                                              .calendartest,
+                                                                      starttime:
+                                                                          doctorbyiddata[0]
+                                                                              [
+                                                                              'available_start_time'],
+                                                                      endtime: doctorbyiddata[
+                                                                              0]
+                                                                          [
+                                                                          'available_end_time'],
+                                                                      doctor: widget
+                                                                              .bydate[index]
+                                                                          [
+                                                                          'doctorname'],
+                                                                      holderid: widget
+                                                                          .bydate[
+                                                                              index]
+                                                                              [
+                                                                              'holder_id']
+                                                                          .toString(),
+                                                                      user_image:
+                                                                          widget.bydate[index]
+                                                                              [
+                                                                              'user_profile'],
+                                                                      // _user(
+                                                                      email: widget
+                                                                              .bydate[index]
+                                                                          [
+                                                                          'doctoremail'],
+                                                                      name: widget
+                                                                              .bydate[index]
+                                                                          [
+                                                                          'client_name'],
+                                                                      phonenumber:
+                                                                          widget.bydate[index]
+                                                                              [
+                                                                              'phonenumber'],
+                                                                      problem: widget
+                                                                              .bydate[index]
+                                                                          [
+                                                                          'issue'],
+                                                                      appointment_id: widget
+                                                                          .bydate[
+                                                                              index]
+                                                                              [
+                                                                              'appointment_id']
+                                                                          .toString(),
+                                                                      appointment_datetime:
+                                                                          DateTime.parse(widget.bydate[index]
+                                                                              [
+                                                                              'appointment_date']),
+                                                                    )));
+                                                  });
+
+                                                  //  }
+                                                  //         ));
+                                                },
+                                                child: Container(
+                                                  color:
+                                                      rescheduleBackgroundColor,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: <Widget>[
+                                                      SvgPicture.asset(
+                                                        'assets/reschedule.svg',
+                                                        color: buttonTextColor,
+                                                      ),
+                                                      Text(
+                                                        "RE-SCHEDULE",
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color:
+                                                                buttonTextColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
+                                            widget.bydate[index][
+                                                        'is_cancellation_expire'] ==
+                                                    false
+                                                ? Container()
+                                                : GestureDetector(
+                                                    onTap: () {
+                                                      _deleteappointment(widget
+                                                              .bydate[index]
+                                                          ['appointment_id']);
+                                                    },
+                                                    child: Container(
+                                                      color:
+                                                          deleteiconBackgroundColor,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: <Widget>[
+                                                          SvgPicture.asset(
+                                                              'assets/close.svg',
+                                                              color:
+                                                                  buttonTextColor),
+                                                          Text(
+                                                            "CANCEL IT",
+                                                            style: TextStyle(
+                                                                fontSize: 12,
+                                                                color:
+                                                                    buttonTextColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+                                          ],
+                                        );
                                 }))),
                   ],
                 )),
